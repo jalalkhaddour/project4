@@ -1,0 +1,73 @@
+<template lang="">
+     <div class="mx-12 text-xl font-medium">
+      <table>
+          <thead> 
+          <th v-if="showS"></th>
+           <th class="text-lg">التفقد</th>  
+           <th class="text-lg">وضع الطالب</th>
+           <th class="text-lg">النتيجة</th>
+           <th class="text-lg">كتابة</th>
+           <th class="text-lg">العلامة</th>
+           <th  class="text-lg">السنة</th>
+           <th class="text-lg">اسم الأب</th> 
+           <th class="text-lg">النسبة</th>
+           <th class="text-lg">الاسم</th>
+           <th class="text-lg">الرقم الجامعي</th>
+             
+          </thead>
+           <tbody >
+          
+              <tr v-if="showS">
+          <td> <button  class="bg-primary text-body text-xl rounded-lg text-center my-1 py-2 px-4 hover:bg-hovercolor"  @click="edit(user)" >
+                  إدخال
+                  </button> </td>
+          <td><input type="text"  class="w-16 border-2 border-primary rounded-lg  text-center " v-model="check"> </td>
+          <td> </td>
+          <td> </td>
+          <td><input type="text"  class="w-32 border-2 border-primary rounded-lg  text-center " v-model="Wresult"></td>
+          <td> <input type="text"  class="w-16 border-2 border-primary rounded-lg  text-center " v-model="result"></td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td></td>
+          <td> </td>
+          
+              </tr>      
+              <tr v-else>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td></td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td></td>
+          <td> </td>
+          
+              </tr>
+          </tbody>
+      </table>
+  </div>
+</template>
+<script>
+import axios from "axios";
+axios.defaults.baseURL="http://localhost/olearning/public/api";
+export default {
+  data () {
+    return {
+        result:0,
+        wresult:'',
+        check:''
+
+    }
+  },
+    props:['showS'],
+    updated(){
+        console.log(this.showS)
+    }
+}
+</script>
+<style lang="">
+    
+</style>
