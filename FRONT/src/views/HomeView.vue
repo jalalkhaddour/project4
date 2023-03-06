@@ -7,7 +7,7 @@
 <UserLoginVue></UserLoginVue>
 </div>
  <div class="grid grid-cols-3 pt-36 gap-14 items-center text-white text-3xl  ml-10 ml-30 lg:pt-28 sm:pt-16 sm:mx-auto sm:space-x-24 lg:space-x-12  ">
-         
+           
         <button v-if="!success" class="rounded-full ml-40 ml-t1 bg-primary  h-40 w-40 card  " @click="toggleLogin('affairs')"    >الشؤون</button>
         <button v-if="!success" class="rounded-full ml-t2 ml-20  bg-primary h-40  w-40 card  " @click="toggleLogin('exam')" >الامتحانات</button>
          <button v-if="success" class="rounded-full ml-40 ml-t1 bg-primary  h-40 w-40  card " @click="setSpec('en')" > <router-link :to="{name:'Examination',params:{dept:dept}}">انكليزي</router-link> </button>
