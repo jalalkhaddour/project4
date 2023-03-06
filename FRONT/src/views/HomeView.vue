@@ -1,9 +1,9 @@
 
 <template>
 <div >
-<Navbar/>
+<Navbar />
  <div v-if="Authenticated==false">
-<!-- <UserLoginVue  @success="SuccessLogin" /> -->
+<!-- <UserLoginVue  @SuccessLogin="SuccessLogin" /> -->
 <UserLoginVue></UserLoginVue>
 </div>
  <div class="grid grid-cols-3 pt-36 gap-14 items-center text-white text-3xl  ml-10 ml-30 lg:pt-28 sm:pt-16 sm:mx-auto sm:space-x-24 lg:space-x-12  ">
@@ -12,7 +12,11 @@
         <button v-if="!success" class="rounded-full ml-t2 ml-20  bg-primary h-40  w-40 card  " @click="toggleLogin('exam')" >الامتحانات</button>
          <button v-if="success" class="rounded-full ml-40 ml-t1 bg-primary  h-40 w-40  card " @click="setSpec('en')" > <router-link :to="{name:'Examination',params:{dept:dept}}">انكليزي</router-link> </button>
         <button v-if="success" class="rounded-full ml-t2 ml-20  bg-primary h-40  w-40  card " @click="setSpec('fr')" ><router-link :to="{name:'Examination',params:{dept:dept}}">فرنسي</router-link></button>
-        <img src="../assets/Images/person.png" class=" pr-4 absolute right-24 imh-t  bottom-28 test-bottom invisible md:visible  " style="height: 45%;" alt="">
+        <!-- <img src="../assets/Images/person.png" class=" pr-4 absolute right-24 imh-t  bottom-28 test-bottom invisible md:visible  " style="height: 45%;" alt=""> -->
+        <transition name="scale" appear >
+<img  src="../assets/Images/person.png" v-if="Authenticated" class="  absolute  right-24 top-1/3 pt-7 imh-t invisible md:visible " style="height: 45%;  " alt="">
+        
+        </transition>
 </div>
 <div class=" w-full  ">
         <img src="../assets/Images/Vector2.png" alt="" class=" h-48  w-80 absolute bottom-0 right-0  t-h">
@@ -35,7 +39,7 @@ export default {
    
     data() {
         return {
-          
+            
             success:false,
            
             
@@ -48,15 +52,13 @@ export default {
         },
          setSpec(sp) {
            this.$store.commit("setSpec",sp)
-        }, SuccessLogin(d){
-            this.success= d
-           
-        },
+        }
         
     },computed:{
         ... mapGetters(["dept","spec"]),
        ...mapGetters('AdUser',['username','password','Authenticated','cookies','Role']),
 
+       
     }
 
 }
@@ -69,5 +71,13 @@ export default {
 }
 .card:hover{
    box-shadow:0 8px 16px 0 rgba(0, 0, 0,0.9); 
+}
+/*scale person image*/
+.scale-enter-from{
+    opacity: 0;
+    transform:scale(0.2)
+}
+.scale-enter-active{
+    transition: all 3s ease;
 }
 </style>

@@ -36,7 +36,7 @@
     <script>
     import { mapGetters } from 'vuex'
     import axios from "axios";
-    axios.defaults.baseURL="http://localhost/olearning/public/api";
+    
     export default {
         
         data() {
@@ -65,10 +65,12 @@
       },{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});
 
       console.log(res.data.message)
+      this.msg1=''
       this.msg=res.data.message
        }
  catch (e) {
       console.log(e.response.data.message);
+      this.msg=''
       this.msg1=e.response.data.message
     }
 

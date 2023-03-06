@@ -50,7 +50,7 @@
    <p class="cursor-pointer hover:bg-hovercolor rounded-lg py-1 p-2" @click="select('form',false)" :class="{'ho':section== 'form'}">معلومات</p>
    </div>
   <div @sr="sr">
-  <Form  v-if="section=='form'" :Show="Show" :student1="student1"/>
+  <Form  v-if="section=='form'" :Show="Show" :student1="student1" :year="year"/>
   <Subject v-if="section=='subject'" @sr="sr"/>
  
   <Punishment v-if="section=='punishment'"/>
@@ -74,7 +74,7 @@
 
 <script>
 import axios from "axios";
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 import { mapGetters } from 'vuex'
 import { ref } from '@vue/reactivity'
 import Form from '../../components/AffairsService/Student/Form.vue'
@@ -94,6 +94,7 @@ export default {
 
   components:{Form,Subject,Punishment,Interruption,yearRe,Suspenension,transport,EquSubjects,SubjectReg},
   setup(){
+    const year=ref('')
     const section=ref('') 
     const select=(s,d)=>{section.value=s;Show.value=d}
     const allcourses=ref([{}]);
@@ -131,7 +132,7 @@ export default {
     }) 
     const suspsen=ref([])
     
-    return{failed,select,section,Show,id,name,status,search,ShYear,allcourses,ShowYear,sr,sure,stopreg,tran,trans,student1,suspsen}},
+    return{failed,select,section,Show,id,name,year,status,search,ShYear,allcourses,ShowYear,sr,sure,stopreg,tran,trans,student1,suspsen}},
 
 
 methods:{
@@ -165,6 +166,16 @@ methods:{
      const res2 = await axios.post("/getStudentSituation",{ university_num:this.university_num,
     specialization:this.spec},{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}})
        console.log(res2)
+       switch(res2.data.current_Year){
+        case 'first': this.year='أولى'
+        break;
+        case 'second':this.year='ثانية' 
+        break;
+        case 'third':this.year='ثالثة'
+        break;
+        case 'forth':this.year='رابعة'
+        break;
+     }
       this.status=res2.data.lastResult
       console.log(this.status)
     
@@ -211,7 +222,31 @@ methods:{
    ...mapGetters('Student',['university_num','fullname','info']),
    ... mapGetters(["spec"]),
 
-}
+},async updated() {
+   
+  try{
+     
+     const res2 = await axios.post("/getStudentSituation",{ university_num:this.university_num,
+    specialization:this.spec},{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}})
+       console.log(res2)
+       switch(res2.data.current_Year){
+        case 'first': this.year='أولى'
+        break;
+        case 'second':this.year='ثانية' 
+        break;
+        case 'third':this.year='ثالثة'
+        break;
+        case 'forth':this.year='رابعة'
+        break;
+     }
+      this.status=res2.data.lastResult
+      console.log(this.status)
+    
+       }
+ catch (e) {
+      console.log(e);
+    } 
+},
 }
 </script>
 

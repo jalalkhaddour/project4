@@ -25,7 +25,8 @@
     <input type="text" class=" rounded-lg  m-3 text-right p-1" >
     <label for="">:وضع الطالب</label></div> -->
      <div class="flex space-x-2 items-center" v-if="Show==false">
-    <input type="text" :disabled="!Show" v-model="student.created_at" class=" rounded-lg  m-3 text-right p-0" >
+      <!-- <input type="text" :disabled="!Show" v-model="student.created_at" class=" rounded-lg  m-3 text-right p-0" > -->
+      <input type="text" :disabled="!Show" v-model="year" class=" rounded-lg  m-3 text-right p-0" >
     <label for="">:السنة الدراسية</label></div>
      <div class="flex space-x-2 items-center text-right m-3  " v-if="Show">
     <input type="radio" name="gender" value="male" id="male" v-model="student.gender" class=" ml-40" >
@@ -113,12 +114,12 @@
 import { mapGetters } from 'vuex'
 import { ref } from '@vue/reactivity'
 import axios from "axios";
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name:'Form',
-props:['Show','student1'],
+props:['Show','student1','year'],
 setup(){
    const close=ref('false')
     const student=ref({

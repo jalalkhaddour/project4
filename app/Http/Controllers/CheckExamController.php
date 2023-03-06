@@ -46,7 +46,7 @@ class CheckExamController extends Controller
                     $succCount += 1;
                 $results [] = $this->ResultFormatter($exam);
             }
-            return response()->json([['results' => $results, 'Attend' => $AttendCount, 'recorded' => $count, 'avgOfAttends' => (100 * ($AttendCount / $count)), 'avgOfSuccess' => (100 * ($succCount / $AttendCount))], 200);
+            return response()->json(['results' => $results, 'Attend' => $AttendCount, 'recorded' => $count, 'avgOfAttends' => (100 * ($AttendCount / $count)), 'avgOfSuccess' => (100 * ($succCount / $AttendCount))], 200);
 
         } catch (ValidationException $exc) {
             return response()->json($exc->getMessages(), 400);
@@ -164,7 +164,7 @@ class CheckExamController extends Controller
         }
         $examst->state=$state;
         $examst->save();
-        return response()->json(['Message'=>"تم تعديل الحضور"],200)
+        return response()->json(['Message'=>"تم تعديل الحضور"],200);
 
     }
 
@@ -175,12 +175,12 @@ class CheckExamController extends Controller
                 'course_id' => 'required',
                 'specialization' => 'required',
                 'studyYear' => 'required',
-                'class_id' => 'required',
+              //  'class_id' => 'required',
                 'studysemster' => 'required'
             ];
             $messages = [
                 'course_id.required' => 'يجب عليك اختيار المادة',
-                'class_id.required' => 'يجب عليك اختيار القاعة الامتحانية',
+                //'class_id.required' => 'يجب عليك اختيار القاعة الامتحانية',
                 'specialization.required' => 'يجب عليك اختيار التخصص',
                 'studyYear.required' => 'يجب عليك اختيار العام الدراسي',
                 'studysemster.required' => 'يجب عليك اختيار الدورة(أولى - ثانية - ثالثة)'
@@ -196,7 +196,7 @@ class CheckExamController extends Controller
             $validStd = [];
             foreach ($students as $student) {
                 $relate = student_courses::where(['course_id' => $course_id, 'student_id' => $student->id])->first();
-                $state = $relate->state();
+                $state = $relate->states()->state;
                 if ($state->HaveNow) {
                     $validStd[] = $student;
                 }

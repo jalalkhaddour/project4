@@ -120,7 +120,7 @@
 import { mapGetters } from 'vuex'
 import { ref } from '@vue/reactivity'
 import axios from "axios";
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 export default {
 props:['Show'],
 setup(){
@@ -211,15 +211,26 @@ setup(){
  catch (e) {
       console.log(e);
       const error=e.response.data.errors
+      // console.log(error)
+      if(error.university_num!=null)
       this.errors.university_num=error.university_num.toString()
+      if(error.fullname!=null)
       this.errors.fullname=error.fullname.toString()
+      if(error.fathername!=null)
       this.errors.fathername=error.fathername.toString()
+      if(error.mothername!=null)
       this.errors.mothername=error.mothername.toString()
+      if(error.birthplace!=null)
       this.errors.birthplace=error.birthplace.toString()
+      if(error.birthdate!=null)
       this.errors.birthdate=error.birthdate.toString()
+      if(error.national_num!=null)
       this.errors.national_num=error.national_num.toString()
+      if(error.gender!=null)
       this.errors.gender=error.gender.toString()
+      if(error.certifeca!=null)
       this.errors.certifeca=error.certifeca.toString()
+      if(error.specialization!=null)
       this.errors.specialization=error.specialization.toString()
     }
 

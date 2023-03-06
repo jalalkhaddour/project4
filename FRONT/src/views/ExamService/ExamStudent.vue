@@ -69,7 +69,7 @@
 
 <script>
 import axios from "axios";
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 import { mapGetters } from 'vuex'
 import { ref } from '@vue/reactivity'
 
@@ -168,7 +168,7 @@ methods:{
 },
 async mounted(){
     try{
-             const res = await axios.get('/showAllCourses',{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
+             const res = await axios.post('/showAllCourses',{specialization:this.spec},{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
             const cours=res.data.data
             console.log(res.data.data)
             const p=[];

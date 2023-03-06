@@ -60,7 +60,7 @@ import EditUser from "../../components/AdministrationService/EditUser.vue";
 import axios from "axios";
 import { ref } from '@vue/reactivity'
 import { inject} from 'vue';
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 export default {
   setup(){
      
@@ -129,6 +129,18 @@ computed:{
   
 },
  components:{EditUser},
+ async updated() {
+     try{
+            const res = await axios.get('/user',{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
+             this.users=res.data.data
+            
+             console.log(this.users)
+              }
+        catch (e) {
+             console.log(e);
+           }
+    
+  },
 }
 </script>
 <style lang="">

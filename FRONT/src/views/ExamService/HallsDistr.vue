@@ -14,18 +14,15 @@
     <div class="flex items center">
                <div class="flex items-center">
               <select   class="  rounded-lg search   bg-no-repeat p-1 m-2    w-32    text-right hover:border hover:border-primary " >
-                  <option value="1">أولى</option>
-          <option value="2">ثانية</option>
-          <option value="3">ثالثة</option>
-          <option value="4">رابعة</option>
+                <option v-for="cl in classes" :key="cl.class_id" :value="cl.class_id">{{ cl.class_num}}</option>
               </select>
            <label class="text-lg text-primary p-3 m-3">
             : القاعة
             </label>
     </div>
     <div class="flex items-center">
-                      <select  class="  rounded-lg search   bg-no-repeat p-1 m-2    w-32    text-right hover:border hover:border-primary ">
-                        <option>1111</option>
+                      <select v-model="code" class="  rounded-lg search   bg-no-repeat p-1 m-2    w-32    text-right hover:border hover:border-primary ">
+                        <option v-for="course in cources" :key="course.id" :value="course">{{ course.course_code }}</option>
                       </select>
            <label class="text-lg text-primary p-3 m-3">
             : المقرر
@@ -64,14 +61,52 @@
 
 <script>
 import axios from "axios";
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+import { mapGetters } from "vuex";
 import Halls from '../../components/ExamService/Halls.vue'
 export default {
-    components:{Halls}
+    components:{Halls},
+    data() {
+      return {
+        classes:[{class_id:0,class_num:'',capacity:0,ready:0,location:''}],
+       cources:[],
+       code:0,
+      }
+    }
 ,     methods:{
     back(){
         this.$router.go(-1)
-    }}
+    }},
+    async mounted(){
+    try{
+             const res = await axios.post('/showAllClasses',{specialization:this.spec},
+             {headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
+   
+             const classes1=res.data.classes
+              for(var cl in classes1){
+                this.classes[cl]=classes1[cl]
+              }
+            
+
+             console.log(this.classes)
+              }
+        catch (e) {
+             console.log(e);
+           }
+           try{
+             const res = await axios.post('/showAllCourses',{specialization:this.spec},
+             {headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
+   
+             this.cources=res.data.data
+            //  console.log(this.cources)
+              }
+        catch (e) {
+             console.log(e);
+           }
+   },computed:{
+   
+   ... mapGetters(["spec"]),
+
+},
 }
    
 </script>

@@ -14,11 +14,10 @@ use Illuminate\Support\Facades\DB;
 
 class CourseController extends Controller
 {
-    public function get_all_courses()
+    public function get_all_courses(Request $request )
     {
-
-
-        $courses = Course::where('IsActive', true)->get();
+        $specialization=$request->specialization;
+        $courses = Course::where(['IsActive'=> true,'specialization'=>$specialization])->get();
     /*    $results = [];
         foreach ($courses as $course) {
             $results [] = CourseResource::toArray($course);

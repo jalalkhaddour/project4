@@ -24,12 +24,13 @@
     </div>
 </template>
 <script>
+
 import ExamForm from '../../components/ExamService/ExamForm.vue';
 import Halls from '../../components/ExamService/Halls.vue'
 import Results from '../../components/ExamService/Results.vue';
 import Session from '../../components/ExamService/Session.vue';
 import axios from "axios";
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 import { mapGetters } from 'vuex'
 export default {
   methods: {

@@ -31,9 +31,9 @@
    
     
     <script>
-    import { mapGetters } from 'vuex'
+    // import { mapGetters } from 'vuex'
     import axios from "axios";
-    axios.defaults.baseURL="http://localhost/olearning/public/api";
+    
     export default {
         
         data() {
@@ -51,7 +51,7 @@
             this.$emit("close",d)
         },
         async change(){
-       
+          this.error={}
             try{
             const res1 = await axios.get('/who',{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
                 this.id7=res1.data.id

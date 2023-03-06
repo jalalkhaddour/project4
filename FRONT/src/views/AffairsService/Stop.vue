@@ -36,8 +36,8 @@
     <label for="stop_year"  class="ml-5 text-2xl">:السنة</label></div>
 
 
-   <div class="justify-center flex pt-2">
-          <input type="text" dir="auto" id="new_university" v-model="stop.new_university"  class="rounded-lg h-10 mr-1 text-right "  />
+   <div class="items-center flex space-x-2">
+          <input type="text" dir="auto" id="new_university" v-model="stop.new_university"  class="rounded-lg m-3 p-1 text-right "  />
              <label class="ml-5 text-2xl" for="new_university">: الجامعة الجديدة</label>
        </div>
    </div></div>

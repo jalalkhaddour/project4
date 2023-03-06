@@ -1,12 +1,13 @@
-/* eslint-disable */
 <template>
-  <div style="width:100% ;">
-  <div>
-    <div class="header h-52" style=" width: 100% ">
+  <div style="width:100% ; ">
+  <div >
+    <div class="header h-52 " style=" width: 100%; ">
+      <!-- <div class="header h-52" style=" width: 100%; "> -->
+   
       <div class="flex items-center justify-between ">
         <div id="al_baath_logo">
           <a href="https://albaath-univ.edu.sy/" >
-          <img   src="../assets/Images/al baath logo.png"  class="h-24 w-24 pt-2 " alt="" />
+          <img   src="../assets/Images/al-baath-logo.png"  class="h-24 w-24 pt-2 " alt="" />
           </a>
         </div>
          <button ><img @click="menuTOG" class=" absolute top-0 right-0 h-12 w-12  me" src="../assets/Images/menu.png "  ></button>
@@ -32,8 +33,14 @@
          <div class="absolute right-12 top-14 text-white text-lg   p-2 justify-end flex" style="height:5px;  "  v-if="show">
          <div>
         <UserInfo :show="show" @sh="close" @cl="cl" /></div></div>
-         <p class="flex text-5xl  font-bold text-white items-top  top-2/3 mx-auto my-28 " style="letter-spacing: 2px;"  > برنامج التعليم المفتوح</p>
-
+        <transition
+        appear
+        @beforeEnter="beforeEnter"
+        @enter="enter"
+        
+      >
+         <h1 v-if="Authenticated" class="flex text-5xl  font-bold text-white items-top  top-2/3 mx-auto my-28 " style="letter-spacing: 2px;"  > برنامج التعليم المفتوح</h1>
+</transition>
       </div>
    
     </div>
@@ -51,8 +58,10 @@
 import { mapGetters } from 'vuex'
 import UserInfo from './UserInfo.vue'
 import ChangePass from './AdministrationService/ChangePass.vue'
-
+import gsap from 'gsap'
 export default {
+  props: []
+  ,
   name:'NavBar',
    data(){
     return{
@@ -73,7 +82,22 @@ export default {
      this.showa=d
     },cl(d){
       this.show=d
-    }
+    },
+    beforeEnter(el){
+        console.log("before enter")
+        el.style.transform="translateY(-60px)"
+        el.style.opacity=0
+    },
+    enter(el,done){
+        console.log("enter",el)
+        gsap.to(el,{
+        y:0,
+        opacity:1,
+        duration:3,
+        onComplete:done,
+        ease:'bounce.out'
+        })
+    },
   },computed:{
      ...mapGetters('AdUser',['username','password','Authenticated','Cookies','Role']),
   }
@@ -92,6 +116,7 @@ export default {
   background-image: url("../assets/Images/Header.png");
   background-repeat: no-repeat;
   background-size: cover;
+ 
 }
 .me {
     visibility: hidden;
@@ -111,4 +136,5 @@ export default {
     height: 100%;
     width: 100%;
 }
+
 </style>

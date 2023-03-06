@@ -45,6 +45,7 @@
     <label for="role">:الدور</label></div>
        <div class="text-2xl text-right  text-green-800 mx-auto pr-48" v-if="success"> تم التعديل بنجاح</div>
        <div class="text-2xl text-right  text-green-800 mx-auto pr-48" v-if="success2"> تم تغيير كلمة السر بنجاح</div>
+       <div class="text-2xl text-right  text-green-800 mx-auto pr-48" v-if="success3"> تم الحذف بنجاح</div>
 
    </div>
     
@@ -60,7 +61,7 @@ import { mapGetters } from 'vuex'
 import { ref } from "@vue/reactivity";
 import axios from "axios";
 import { inject} from 'vue';
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 //axios.defaults.withCredentials=true;
 export default {
     setup() {
@@ -71,8 +72,9 @@ export default {
     const user=ref({username: '',password:'',fname:'',lname:'',RoleName:''})
     const success=ref('')
     const success2=ref('')
+    const success3=ref('')
   const errors=ref({username: '',password:'',fname:'',lname:'',RoleName:''})
-    return { users,user,cookies,access_token,errors,success,success2};
+    return { users,user,cookies,access_token,errors,success,success2,success3};
   },props:['userid','userin','Show'],
   methods: {
     async  save (){
@@ -113,7 +115,7 @@ export default {
     async deleteUser(){
         try{
              const res = await axios.post('/deleteU',{id:this.userid },{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
-          
+             this.success3=true
              console.log(res)
               }
         catch (e) {

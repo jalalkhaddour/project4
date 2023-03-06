@@ -1,15 +1,16 @@
 <template>
-<div>
+<div class="overflow-auto">
       <table>
          
          
  <thead>
      <th class="bg-primary text-white text-lg" style="width:25%"> عدد مرات الرسوب </th>
-     <th class="bg-primary text-white text-lg">الوضع</th>
-     <th class="bg-primary text-white text-lg">النتيجة</th>
-     <th class="bg-primary text-white text-lg">المادة</th>
+     <th class="bg-primary text-white text-lg" style="width:25%">الوضع</th>
+     <th class="bg-primary text-white text-lg" style="width:25%">النتيجة</th>
+     <th class="bg-primary text-white text-lg" style="width:25%">المادة</th>
  </thead>
- <tbody v-for="co in findCourse" :key="co">
+
+ <tbody v-for="co in findCourse" :key="co" >
  <tr >
    <td>{{co.NumOfFail}}</td>
    <td>{{co.state}}</td>
@@ -17,13 +18,14 @@
    <td>{{co.course_name}}</td>
    </tr>
  </tbody>
+
   </table>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 import { mapGetters } from 'vuex' 
 export default{
   props:['sem','allC'],

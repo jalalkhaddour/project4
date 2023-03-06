@@ -33,7 +33,7 @@
 import { mapGetters } from 'vuex'
 import axios from "axios";
 import { inject, onMounted } from 'vue';
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 
 
 export default{

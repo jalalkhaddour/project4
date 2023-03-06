@@ -1,6 +1,7 @@
 import {
+    createMemoryHistory,
     createRouter,
-    createWebHistory
+    // createWebHistory
 } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import About from '../views/AboutView.vue'
@@ -10,7 +11,7 @@ import Administrative from '../views/Administration/AdministrativeView.vue'
 import Graduates from '../views/AffairsService/Graduates.vue'
 import NewStudent from '../views/AffairsService/NewStudent.vue'
 import PublicRecord from '../views/PublicRecord.vue'
-import UsersVue from '@/views/Administration/UsersVue.vue'
+import UsersVue from '../views/Administration/UsersVue.vue'
 import Stop from '../views/AffairsService/Stop.vue'
 import AddUserVue from '../views/Administration/AddUser.vue'
 import Logs from '../views/Administration/Logs.vue'
@@ -24,6 +25,9 @@ import HallsDistr from '../views/ExamService/HallsDistr.vue'
 import Lectures from '../views/ExamService/Lectures.vue'
 import Stopped from '../views/AffairsService/Stopped.vue'
 import NotFound from '../views/NotFound.vue'
+
+
+
 const routes = [{
 
         path: '/',
@@ -113,7 +117,7 @@ const routes = [{
         path: '/exaDocuments',
         name: 'exaDocuments',
         component: ExaDocuments
-    },{
+    }, {
         path: '/affDocuments',
         name: 'affDocuments',
         component: AffDocuments
@@ -133,7 +137,10 @@ const routes = [{
 
 ]
 const router = createRouter({
-    history: createWebHistory(),
+    // history: createWebHistory(),
+    history: createMemoryHistory(),
     routes
+
 })
+
 export default router

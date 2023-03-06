@@ -16,25 +16,34 @@ class ExamController extends Controller
     {
         $code = $request->code;
         $specialization = $request->specialization;
-        $study_year = $request->studyYear;
+        $study_year = $request->study_year;
         $Examsemster = $request->Examsemster;
         $course = Course::where(['course_code' => $code, 'specialization' => $specialization, 'IsActive' => 1])->first();
         $relations = student_courses::where(['course_id' => $course->id])->get();
         $results = [];
         $count = 0;
         $succCount = 0;
-        foreach ($relations as $relation) {
-            $exam = $relation->state();
-            if ($exam->study_year == $study_year and $exam->Examsemster == $Examsemster) {
+        foreach ($relations as $relation1) {
+            $examID = $relation1->id;
+           // $exam = $relation1->states;
+$exam=student_courses_state::find($examID);
+if($exam==null)
+    return response()->json(['not-found'],500);
+            if ($exam->study_year==$study_year and $exam->Examsemster == $Examsemster) {
                 $count += 1;
+                $ssss =$exam->study_year;
+
                 $mark = $exam->Mark;
                 if ($mark >= 50)
                     $succCount += 1;
-                $results [] = $this->ResultFormatter($relation);
+                $results [] = $this->ResultFormatter($relation1);
             }
-        }
-        $succAvg = 100 * ($succCount / $count);
-        return response()->json(['results' => $results, 'avg' => $succAvg, 'RegisterdStd' => $count, 'SuccStd' => $succCount], 200);
+        }if($count==0){
+           // return response()->json(['message' => 'لا يوجد متقدمين'],200);
+        $succAvg=-1;
+    }else{
+        $succAvg = 100 * ($succCount / $count);}
+        return response()->json(['study'=>$study_year,'Examsemster'=>$Examsemster,'spec'=>$specialization,'code'=> $code,'results' => $results, 'avg' => $succAvg, 'RegisterdStd' => $count, 'SuccStd' => $succCount], 200);
 
     }
 
@@ -438,7 +447,7 @@ return response()->json([
         $Student_id = $request->student_id;
         $student = Student::findOrFail($Student_id);
         $course = Course::findOrFail($request->course_id);
-        $state=$request->state();
+        $state=$request->states;
         return [
             'id' => $state->id,
         'student_name' => $student->fullname,

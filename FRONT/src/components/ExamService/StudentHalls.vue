@@ -6,7 +6,7 @@
 
 <div class="space-x-2">
     <label>
-        4
+        
     </label>
     <label>
 : السنة
@@ -73,7 +73,7 @@
 <script>
 import { ref } from '@vue/reactivity'
 import axios from "axios";
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 import { mapGetters } from 'vuex'
 export default {
  setup(){

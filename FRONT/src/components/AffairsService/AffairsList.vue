@@ -28,12 +28,7 @@
   
 
 
-    <div class="w-52 hover:bg-hovercolor rounded-5 m-2">
-    <router-link to="">
-      <p style="text-align: center">مصدقة تأجيل</p></router-link
-    >
-    <hr class="bg-body" />
-  </div>
+   
           <div class="w-52 hover:bg-hovercolor rounded-5">
           <router-link to='/graduates'>
             <p style="text-align: center">خريجون </p></router-link

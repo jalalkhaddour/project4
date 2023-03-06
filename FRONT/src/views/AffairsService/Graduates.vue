@@ -88,7 +88,7 @@
 </template>
 <script>
 import axios from "axios";
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 import { mapGetters } from 'vuex'
 export default{
     // eslint-disable-next-line vue/multi-word-component-names

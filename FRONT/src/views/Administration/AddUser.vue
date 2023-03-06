@@ -53,7 +53,7 @@
 import { mapGetters } from 'vuex'
 import { ref } from "@vue/reactivity";
 import axios from "axios";
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 //axios.defaults.withCredentials=true;
 export default {
     setup() {
@@ -71,15 +71,21 @@ export default {
    try{
       const res = await axios.post('/addus',{username:this.user.username,password:this.user.password,lname:this.user.lname,fname:this.user.fname,Role:this.user.Role,IsActive:1},{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
       console.log(res.data)
+      this.errors={}
       this.success=true
        }
  catch (e) {
       console.log(e);
       const error=e.response.data.errors
+      if(error.username!=null)
       this.errors.username=error.username.toString()
+      if(error.password!=null)
       this.errors.password=error.password.toString()
+      if(error.fname!=null)
       this.errors.fname=error.fname.toString()
+      if(error.lname!=null)
       this.errors.lname=error.lname.toString()
+      if(error.Role!=null)
       this.errors.Role=error.Role.toString()
     }
     },    

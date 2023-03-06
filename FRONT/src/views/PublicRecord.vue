@@ -17,7 +17,7 @@
                 <select v-if="spec=='fr'" name="cert" class="h-10 cursor-pointer rounded-lg" v-model="cert">
                     <option value="all">الجميع</option>
                     <option value="bac">بكلوريا</option>
-                    <option value="inst"> كلية/ معهد</option>
+                    <option value="col"> كلية/ معهد</option>
                     <option value="instf">معهد فرنسي</option>
                     <option value="pe">عام فرنسي</option>
 
@@ -59,6 +59,7 @@
                         @click="getStudents">عرض
                 </button>
             </div>
+           
         </div>
         <table class=" text-primary bg-white-100 text-lg">
             <thead>
@@ -138,10 +139,7 @@
             return {
                 cert: "all",
                 year: "all",
-
                 students: [],
-
-
             }
         },
         components: {},
@@ -176,6 +174,38 @@
 
                     console.log(res)
                     this.students = res.data.data
+                    for (var student of this.students){
+                        switch(student.certifeca){
+                          case 'bac':
+                            student.certifeca="بكلوريا";
+                            break;
+                          case 'out_col':
+                             student.certifeca="مستنفذ ومنقول";
+                            break;
+                          case 'col':
+                             student.certifeca="شهادة جامعية";
+                            break;
+                          case 'inst_en':
+                             student.certifeca="معهد إنكليزي";
+                            break;   
+                        }
+                        switch(student.specialization){
+                              case 'fr':
+                                student.specialization="فرنسي";
+                                break;
+                              case 'en':
+                                student.specialization="إنكليزي";
+                                break;
+                            }
+                            switch(student.gender){
+                              case 'male':
+                                student.gender="ذكر";
+                                break;
+                               case 'female':
+                                student.gender="أنثى";
+                                break; 
+                            }
+                    }
                 } catch (e) {
                     console.log(e);
                 }
@@ -185,6 +215,7 @@
 
         }, computed: {
             ...mapGetters(["spec"]),
+  
         }
 
 

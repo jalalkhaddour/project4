@@ -10,14 +10,14 @@
 <div class="flex justify-center m-2 space-x-8">
 
             <div class="flex justify-center space-x-2">
-            <label>11111</label>
+            <label>{{ clas.capacity }}</label>
 <label>
     : السعة
 </label>
           
            </div>
                       <div class="flex justify-center space-x-2">
-            <label>11111</label>
+            <label>{{ clas.class_num }}</label>
 <label>
  : القاعة
 
@@ -28,7 +28,7 @@
 <div >
   <div>
   <div class="flex justify-end m-2 space-x-4">
-    <input type="radio" name="d"/>
+    <input type="radio" value="hand" v-model="ch" name="d"/>
     <label> 
       فرز يدوي
     </label>
@@ -52,7 +52,7 @@
 
   </div>
   <div class="flex justify-end m-2 space-x-4">
-    <input type="radio"  name="d"/>
+    <input type="radio" value="auto" v-model="ch"  name="d"/>
     <label>
        فرز  آلي
     </label>
@@ -61,21 +61,54 @@
 
 </div>
            <div class="flex justify-center m-2" >
-            <button class="bg-primary text-body text-lg rounded-lg text-center  px-5 hover:bg-hovercolor m-6" >تعبئة</button>
+            <button class="bg-primary text-body text-lg rounded-lg text-center  px-5 hover:bg-hovercolor m-6" @click="fill">تعبئة</button>
            </div>
       </div>
     </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import axios from "axios";
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 export default {
+  props:['clas','studysemester','studyYear','code'],
+  data() {
+    return {
+      ch:''
+    }
+  },
   methods: {
     ha() {
       this.$emit("close");
+    },
+    async fill(){
+      console.log(this.ch)
+      if(this.ch=='auto')
+      try{
+               const res = await axios.post('/PutStudentsInClassByCourse',
+               {course_id:this.code.course_code,specialization:this.spec,studyYear:this.studyYear,class_id:this.clas.class_id,studysemster:this.studysemester}
+               ,{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});
+              
+               console.log(res)
+               
+                }
+          catch (e) {
+               console.log(e);
+              
+             }
     }
-}}
+  },
+    mounted() {
+      console.log(this.clas)
+      console.log(this.studyYear)
+      console.log(this.studysemester)
+      console.log(this.code.course_code)
+
+    },computed: {
+    ...mapGetters(["spec"]),
+  }
+}
 </script>
 
 <style>

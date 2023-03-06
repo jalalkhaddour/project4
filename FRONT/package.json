@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
+    "caniuse-lite": "^1.0.30001458",
+    "gsap": "^3.11.4",
     "vue": "^3.2.31",
     "vue-cookies": "^1.8.1",
     "vue-router": "^4.0.14",

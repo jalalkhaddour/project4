@@ -57,7 +57,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import axios from "axios";
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 export default {
     props:["spec","university_num","current_Year","current_Semster","CurrResult"],
      data() {
@@ -88,12 +88,13 @@ export default {
       const res2 = await axios.post("/registeryear",{ university_num:this.university_num,specialization:this.spec,year:this.newYear,semester:this.newSem})
      console.log(res2)
      
-
+     this.msg1='' 
     this.msg=res2.data.message
     console.log(this.msg)
        }
  catch (e) {
       console.log(e);
+      this.msg='' 
        this.msg1=e.response.data.message
     }  
 

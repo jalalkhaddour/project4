@@ -26,7 +26,7 @@
 
 <script>
 import axios from "axios";
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 export default {
   props: ['suspsen'],
   data () {
@@ -38,7 +38,7 @@ export default {
   },async mounted(){
      try{
       const res = await axios.post("/getsuspension"+{ university_num:this.university_num,
-      specialization:this.spec})
+      specialization:this.spec},{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}})
        console.log(res.data)
        this.susps=res.data
        }

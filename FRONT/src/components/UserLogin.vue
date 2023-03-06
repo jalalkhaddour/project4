@@ -6,18 +6,19 @@
             </div>
             <div class="my-6">
                 <form action="" class="space-y-6 text-right pr-9 space-x-3 ">
-                    <input type="text" dir="auto" v-model="form.username" id="name" class="rounded-lg w-6/12 h-8 mx-2 text-right px-4" />
+                    <input type="text" dir="auto" v-model="form.username" id="name" :class="{rr:errors.username}" class="rounded-lg w-6/12 h-8 mx-2 text-right px-4" />
                     <label for="name"  class="text-black text-2xl mx-2">:اسم المستخدم</label>
                     <br>
                   
-                     <input type="password" dir="auto" v-model="form.password" id="pass" class="rounded-lg  h-8  w-6/12 mx-2  text-right px-4 ">
+                     <input type="password" dir="auto" v-model="form.password" id="pass" :class="{rr:errors.password}" class="rounded-lg  h-8  w-6/12 mx-2  text-right px-4 ">
                         <label for="pass" class="text-black text-2xl mx-5 ">:كلمة السر&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                  </form>
                    <div class="text-lg  text-right  text-red-700 mx-auto pr-36 pt-1 ">{{errors.password}}</div>
-                   <div class="text-lg  text-right  text-red-700 mx-auto pr-28 pt-1 ">{{errors.username}}</div>
+                   <div class="text-lg  text-right  text-red-700 mx-auto pr-36 pt-1 ">{{errors.username}}</div>
             </div>
             <div class="grid grid-cols-2 row-start-4 row-end-5 justify-between mx-auto space-x-10   mr-20 text-white text-center items-center px-6 pl-20">
-                <button class="bg-primary rounded-lg h-10 w-16"  ><router-link :to="{name:'About'}">إلغاء</router-link></button>
+                <!-- <button class="bg-primary rounded-lg h-10 w-16"  ><router-link :to="{name:'About'}">إلغاء</router-link></button> -->
+                <button class="bg-primary rounded-lg h-10 w-16"  @click="close()" >إلغاء</button>
                 <button class="bg-primary rounded-lg h-10 w-16 cursor-pointer " :disabled="!Show"  @click="handle(true)" >دخول</button>
               
             </div>
@@ -33,9 +34,9 @@
 <script>
 import { mapGetters } from 'vuex'
 import { ref ,reactive} from '@vue/reactivity'
-import { inject, onMounted, watchEffect } from 'vue';
+import { inject, watchEffect } from 'vue';
 import axios from "axios";
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 export default {
   data () {
     return {
@@ -83,19 +84,24 @@ export default {
                         console.log(res)
                         this.$store.commit('AdUser/SetCookies',this.cookies)
                         this.isAuthenticated=true
-                    }
-                     console.log(this.cookies.get('access_token'))
+                        console.log(this.cookies.get('access_token'))
                      this.$store.commit('AdUser/SetAuthenticated',this.isAuthenticated)
-                
+                     
+                    }
+                  
+                // this.$emit('successLogin',true)
                    }
                catch (e) {
                     console.log(e);
                     if(e.code=='ERR_NETWORK'){
                             
                     }else{
+                        this.errors={}
                     const error=e.response.data.errors
-                    this.errors.password=error.password
-                    this.errors.username=error.username
+                    if(error.password!=null)
+                    this.errors.password=error.password.toString()
+                    if(error.username!=null)
+                    this.errors.username=error.username.toString()
                     console.log(this.errors.username)}
                          }
                    try{
@@ -113,7 +119,9 @@ export default {
                      console.log(e);
                    }        
             
-        },
+        },close(){
+            window.close()
+        }
  
     },computed:{
      ...mapGetters('AdUser',['username','password','Authenticated','Cookies','Role']),

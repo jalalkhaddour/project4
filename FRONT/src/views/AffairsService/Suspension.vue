@@ -72,7 +72,7 @@
 import { mapGetters } from 'vuex'   
 import Form from "./Form.vue";
 import axios from "axios";
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 export default {
   // eslint-disable-next-line vue/no-unused-components
   components: { Form },

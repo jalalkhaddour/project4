@@ -35,15 +35,15 @@ class ExamClassController extends Controller
                 $Exam_class = Exam_class::query()->create([
                     'class_num' => $request->class_num,
                     'capacity' => $request->capacity,
+                    'specialization'=>$specialization,
                     'location' => $request->location,
-                    'ready' => $request->capacity,
-                    'specialization'=>$specialization
+                    'ready' => 0
 
                 ]);
 
             } else {
                 return response()->json([
-                    'message' => 'please check the class details, the request is already exist'
+                    '' => 'please check the class details, the request is already exist'
                 ], 301);
             }
         } catch (ValidationException $exv) {
@@ -51,11 +51,13 @@ class ExamClassController extends Controller
                 'message' => $exv->getMessage()
             ], 404);
         }
+        return response()->json(['message'=>'تمت إضافة القاعة بنجاح','class'=>$Exam_class],200);
     }
 
     public function showAllClasses(Request $request)
     {
-        $Exam_classes = Exam_class::all();
+        $specialization=$request->specialization;
+        $Exam_classes = Exam_class::where('specialization',$specialization)->get();
         $results = [];
         foreach ($Exam_classes as $exam_class) {
             $results [] = $this->ResultFormatter($exam_class);
@@ -98,8 +100,26 @@ class ExamClassController extends Controller
             $Exam_class->save();
             return response()->json(['Message'=>'Success','ExamClass'=>$Exam_class],200);
 
+        } catch (SQLiteException $xx) {
+            return response()->json(['message' => $xx], 401);
         }
 
+}
+
+    public function DeleteExamClass(Request $request)
+    {
+        $id=$request->id;
+        try {
+            $Exam_class = Exam_Class::findOrFail($id);
+        }catch (\SQLiteException $err){
+            return response()->json(['Message'=>'error while find the class'],403);
+        }
+        $resu=Exam_class::Destroy($id);
+        if($resu!=0){
+            return response()->json(['Message'=>'تم حذف القاعة'],200);
+        }else{
+            return response()->json(['Message'=>'لم يتم حذف القاعة خطأ في الوصول'],400);
+        }
 
 }
 
@@ -113,7 +133,7 @@ class ExamClassController extends Controller
             'class_num' => $request->class_num,
             'capacity' => $request->capacity,
             'ready' => $request->ready,
-            'specialization'=>$specialization,
+            'specialization'=>$request->specialization,
             'location' => $request->location
         ];
     }

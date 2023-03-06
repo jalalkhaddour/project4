@@ -8,7 +8,7 @@
   </div>
   <div class="flex justify-between items-center mt-4 mx-6 ">
                 <div class="flerx justify-center items-center space-x-4 text-primary text-lg">
-              <button class="bg-primary text-body text-lg rounded-lg text-center  px-5 hover:bg-hovercolor"  >طباعة</button>
+              <button class="bg-primary text-body text-lg rounded-lg text-center  px-5 hover:bg-hovercolor" @click="getby"  >طباعة</button>
 
     </div>
             <div class="flerx justify-center items-center space-x-4 text-primary text-lg">
@@ -16,11 +16,12 @@
 
     </div>
     <div class="flerx justify-center items-center space-x-4 text-primary text-lg">
+     
 <select class="rounded-lg text-primary text-lg h-8 " v-model="docType">
-    <option value="1"> 
+    <option value="k"> 
        كشف علامات 
     </option>
-    <option value="2">
+    <option value="b">
         بيان وضع
     </option>
 </select>
@@ -37,10 +38,10 @@
     </div>
   </div>
   <div>
-  <div class=" border-primary border-2 mx-4 mt-6 mb-6" >
+  <div class=" border-primary border-2 mx-4 mt-6 mb-6" v-if="docType=='k'" >
 <div class="flex  items-center justify-between mb-24 mt-6 mx-6  text-primary text-lg">
     <div class="h-42 w-42">      
-          <img   src="../../assets/Images/al baath logo.png"  class="h-36 w-36 pt-2 " alt="" />
+          <img   src="../../assets/Images/al-baath-logo.png"  class="h-36 w-36 pt-2 " alt="" />
     </div>
         <div class="m-1 ">
     <label class="flex justify-center items-center mx-auto">الجمهورية العربية السورية</label><br>
@@ -126,18 +127,18 @@
    
   </tr>
   <tr>
-    <td  colspan="2">اثنان وخمسون</td>
-    <td>52</td>
-    <td colspan="3">ترجمة 1</td>
-    <td colspan="2" >اثنان وخمسون</td>
-    <td>52</td>
-    <td colspan="3">ترجمة 2</td>
+    <td  colspan="2"> </td>
+    <td></td>
+    <td colspan="3"> </td>
+    <td colspan="2" > </td>
+    <td></td>
+    <td colspan="3"> </td>
   </tr>
     <tfoot>
-    <td  colspan="3">52</td>
+    <td  colspan="3"></td>
     
     <td colspan="3" > المعدل </td>
-    <td colspan="3" >104</td>
+    <td colspan="3" ></td>
     
     <td colspan="3">المجموع </td>
     </tfoot>
@@ -166,18 +167,18 @@
    
   </tr>
   <tr>
-    <td  colspan="2">اثنان وخمسون</td>
-    <td>52</td>
-    <td colspan="3">ترجمة 3</td>
-    <td colspan="2" >اثنان وخمسون</td>
-    <td>52</td>
-    <td colspan="3">كتابة 1</td>
+    <td  colspan="2"> </td>
+    <td></td>
+    <td colspan="3"> </td>
+    <td colspan="2" > </td>
+    <td></td>
+    <td colspan="3"> </td>
   </tr>
       <tfoot>
-    <td  colspan="3">52 </td>
+    <td  colspan="3"> </td>
     
     <td colspan="3" > المعدل </td>
-    <td colspan="3" >104</td>
+    <td colspan="3" ></td>
     
     <td colspan="3">المجموع </td>
     </tfoot>
@@ -205,18 +206,18 @@
    
   </tr>
   <tr>
-    <td  colspan="2">اثنان وخمسون</td>
-    <td>56</td>
-    <td colspan="3">تعبير شفهي 1</td>
-    <td colspan="2" >اثنان وخمسون</td>
-    <td>56</td>
-    <td colspan="3">تعبير شفهي 2</td>
+    <td  colspan="2"> </td>
+    <td></td>
+    <td colspan="3"> </td>
+    <td colspan="2" > </td>
+    <td></td>
+    <td colspan="3"> </td>
   </tr>
       <tfoot>
-    <td  colspan="3"> 56</td>
+    <td  colspan="3"> </td>
     
     <td colspan="3" > المعدل </td>
-    <td colspan="3" >112</td>
+    <td colspan="3" ></td>
     
     <td colspan="3">المجموع </td>
     </tfoot>
@@ -244,18 +245,18 @@
    
   </tr>
   <tr>
-    <td  colspan="2">اثنان وخمسون</td>
-    <td>52</td>
-    <td colspan="3">ترجمة 5</td>
-    <td colspan="2" >اثنان وخمسون</td>
-    <td>52</td>
-    <td colspan="3">ترجمة 6</td>
+    <td  colspan="2"> </td>
+    <td></td>
+    <td colspan="3"> </td>
+    <td colspan="2" > </td>
+    <td></td>
+    <td colspan="3"> </td>
   </tr>
       <tfoot>
-    <td  colspan="3">52 </td>
+    <td  colspan="3"> </td>
     
     <td colspan="3" > المعدل </td>
-    <td colspan="3" >104</td>
+    <td colspan="3" ></td>
     
     <td colspan="3">المجموع </td>
     </tfoot>
@@ -296,10 +297,10 @@
 </div>
 
   </div>
-  <div class=" border-primary border-2 mx-4 mt-6 mb-6" >
+  <div class=" border-primary border-2 mx-4 mt-6 mb-6"  v-if="docType=='b'">
     <div class="flex  items-center justify-between mb-24 mt-6 mx-6  text-primary text-lg">
     <div class="h-42 w-42">      
-          <img   src="../../assets/Images/al baath logo.png"  class="h-36 w-36 pt-2 " alt="" />
+          <img   src="../../assets/Images/al-baath-logo.png"  class="h-36 w-36 pt-2 " alt="" />
     </div>
         <div class="m-1 ">
     <label class="flex justify-center items-center mx-auto">الجمهورية العربية السورية</label><br>
@@ -382,11 +383,12 @@
 <script>
 import axios from "axios";
 import { mapGetters } from 'vuex' 
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 import { ref } from '@vue/reactivity'
 export default {
   setup(){
     const section=ref('') 
+    const docType=ref('') 
     const select=(s,d)=>{section.value=s;Show.value=d}
     const allcourses=ref([{}]);
      const name =ref('')
@@ -422,7 +424,7 @@ export default {
     }) 
     const suspsen=ref([])
     
-    return{failed,select,section,Show,id,name,status,search,ShYear,allcourses,sr,sure,stopreg,tran,trans,student1,suspsen}},
+    return{failed,select,section,docType,Show,id,name,status,search,ShYear,allcourses,sr,sure,stopreg,tran,trans,student1,suspsen}},
 
 
 methods:{
@@ -449,11 +451,9 @@ methods:{
        
 
       
-    },async getby(a){
-      this.year=a
-    
+    },async getby(){
     try{
-             const res = await axios.post('/getMarksByYearStudent',{ university_num:this.university_num, specialization:this.spec,year:a},{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
+             const res = await axios.post('/getMarksByYearStudent',{ university_num:this.university_num, specialization:this.spec},{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
               console.log(res);
               this.allC=[];
             const new55=res.data.cours;

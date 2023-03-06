@@ -52,20 +52,37 @@
 </template>
 <script>
 import axios from "axios";
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+import { mapGetters } from "vuex";
 export default {
   data () {
     return {
         result:0,
         wresult:'',
-        check:''
+        check:'',
+        data:[{}]
 
     }
   },
     props:['showS'],
+    async mounted() {
+        try{
+             const res = await axios.post('/getCheckSess',{code:this.c_code,specialization:this.spec,studyYear:this.study_year,studysemster:this.semster},
+             {headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
+   
+             console.log(res)
+             this.data=res.data
+              }
+        catch (e) {
+             console.log(e);
+           }
+    },
     updated(){
         console.log(this.showS)
-    }
+    }, computed: {
+    ...mapGetters(["spec"]),
+    ...mapGetters('Exam',['c_code','study_year','semster']),
+
+  },
 }
 </script>
 <style lang="">

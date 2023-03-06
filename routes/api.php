@@ -71,12 +71,13 @@ Route::get('/setup', [\App\Http\Controllers\SetupPerRol::class, 'setupRolesAndPE
 Route::post('/add_course', [CourseController::class, 'add_course']);
 Route::post('/updateCourse', [CourseController::class, 'updateCourse']);
 Route::post('/getCourseBysemster', [CourseController::class, 'getCourseBysemster']);
-Route::get('/showAllCourses', [CourseController::class, 'get_all_courses']);
+Route::post('/showAllCourses', [CourseController::class, 'get_all_courses']);
 Route::post('/deleteCourse', [CourseController::class, 'deleteCourse']);
 Route::post('/getAvailableStudCourses', [CourseController::class, 'get_availableStudCourses']);
 Route::post('/AttatchStudentCourses', [CourseController::class, 'AttatchStudentCourses']);
 Route::post('/addExamClass', [ExamClassController::class, 'addClassEx']);
-Route::get('/showAllClasses', [ExamClassController::class, 'showAllClasses']);
+Route::post('/showAllClasses', [ExamClassController::class, 'showAllClasses']);
+Route::post('/DeleteExamClass', [ExamClassController::class, 'DeleteExamClass']);
 Route::post('/setExamClassReady', [ExamClassController::class, 'setExamClassReady']);
 Route::post('/UpdateExamClass', [ExamClassController::class, 'UpdateExamClass']);
 Route::post('/getCheckSess', [CheckExamController::class, 'getCheckExAdmin']);

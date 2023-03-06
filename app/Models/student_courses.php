@@ -14,10 +14,14 @@ class student_courses extends Model
     public function Student(){
        return $this->belongsTo(Student::class);
     }
-    public function Course(){
+    public function Course() {
        return $this->belongsTo(Course::class);
     }
-public function states()
+    public function states()
+    {
+        return $this->hasOne(student_courses_state::class,'relation_id','id');
+    }
+    public function state()
 {
     return $this->hasOne(student_courses_state::class);
 }

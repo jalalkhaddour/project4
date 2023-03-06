@@ -35,7 +35,7 @@
 
 <script>
 import axios from "axios";
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 import { ref } from '@vue/reactivity'
 import { mapGetters } from 'vuex' 
 import AboutView from '../../../views/AboutView.vue'

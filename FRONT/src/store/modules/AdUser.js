@@ -1,4 +1,4 @@
-const Student = {
+const AdUser = {
     namespaced: true,
     state: {
         username: '',
@@ -47,4 +47,4 @@ const Student = {
 
     actions: {}
 }
-export default Student;
+export default AdUser;

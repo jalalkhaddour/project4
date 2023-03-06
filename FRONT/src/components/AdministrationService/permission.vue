@@ -116,7 +116,7 @@ import { mapGetters } from 'vuex'
 import { ref } from "@vue/reactivity";
 import axios from "axios";
 import { inject} from 'vue';
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 //axios.defaults.withCredentials=true;
 export default {
     setup() {

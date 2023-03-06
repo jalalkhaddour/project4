@@ -13,7 +13,7 @@ import ChangePass from './AdministrationService/ChangePass.vue'
 
 import { mapGetters } from 'vuex'
 import axios from "axios";
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 export default {
   data () {
     return {
@@ -31,14 +31,20 @@ methods:{
       if(this.$cookies.get('access_token')){
         this.$cookies.set('access_token','')
        this.$store.commit('AdUser/SetCookies',this.$cookies) 
-       this.$store.commit('AdUser/SetAuthenticated',false) 
+       this.$store.commit('AdUser/SetAuthenticated',false)
+    
        
       }
+
        this.close=false
-       this.$emit('cl',this.close)
-        // this.$router.replace('/')
-        // document.location.replace('/')
   
+      this.$router.beforeEach((to, from, next) => {
+    if (this.Authenticated == false)
+        return '/'
+})
+       this.$emit('cl',this.close)
+   
+        
        }
  catch (e) {
       console.log(e);

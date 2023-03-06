@@ -59,7 +59,7 @@ import permission from '../../components/AdministrationService/permission.vue';
 import axios from "axios";
 import { ref } from '@vue/reactivity'
 import { inject} from 'vue';
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 export default {
   setup(){
      

@@ -45,7 +45,7 @@
 import { ref } from "@vue/reactivity";
 import axios from "axios";
 import { inject} from 'vue';
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
   export default{
   methods: {
     back(){

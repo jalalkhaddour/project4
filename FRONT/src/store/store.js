@@ -1,6 +1,7 @@
-import {createStore} from 'vuex'
+import { createStore } from 'vuex'
 import Student from './modules/Student.js'
 import AdUser from './modules/AdUser.js'
+import Exam from './modules/Exam.js';
 const store = createStore({
     state() {
         return {
@@ -30,7 +31,9 @@ const store = createStore({
     actions: {},
     modules: {
         Student: Student,
-        AdUser: AdUser
+        AdUser: AdUser,
+        Exam: Exam
+
     }
 });
 

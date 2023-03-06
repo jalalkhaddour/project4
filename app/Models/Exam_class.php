@@ -10,7 +10,7 @@ class Exam_class extends Model
     use HasFactory;
     protected $table='exam_classes';
     protected $fillable=[
-        'class_num','location','capacity','ready'
+        'class_num','location','capacity','ready','specialization'
     ];
 
     public function Courses(){

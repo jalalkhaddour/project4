@@ -52,22 +52,23 @@
                  <div class="justify-center flex mt-3">
               <input type="text" dir="auto" v-model="spe" id="specialization" disabled="true" class="rounded-lg w-6/12 h-8 ml-2 text-right px-4"  />
                <label for="specialization" class="mr-16 pl-0   ">:القسم</label></div>
-                 <div class="text-lg   rounded-lg  mx-28 text-red-500" v-if="msg.length!=''">
-                  {{msg}}
-                </div>  
+               <div class="text-lg   rounded-lg ml-20  text-red-500" v-if="msg1.length>0">
+                {{msg1}}
+              </div> 
+                 <div class="text-lg   rounded-lg ml-20 text-green-700" v-if="msg.length>0">
+                {{msg}}
+              </div> 
             </form>
           </div>
           
         </div><div class="mx-auto">
-            <button class="bg-primary text-body text-xl rounded-lg text-center m-4 py-1 px-2  hover:bg-hovercolor w-28  h-12"  @click="Suspension"> إيقاف </button>
-</div>
+    
+          <button class="bg-primary text-body text-xl rounded-lg text-center m-4 py-1 px-2  hover:bg-hovercolor w-28  h-12"  @click="Suspension"> إيقاف </button>
+        
+        </div>
+
       </div>
-       <div class="text-lg   rounded-lg  mx-auto text-red-500" v-if="msg1.length>0">
-     {{msg1}}
-   </div> 
-      <div class="text-lg   rounded-lg  mx-auto text-green-700" v-if="msg.length>0">
-     {{msg}}
-   </div> 
+    
     </div>
   </div>
 </template>
@@ -78,7 +79,7 @@
 import { mapGetters } from 'vuex'   
 import Form from "./Form.vue";
 import axios from "axios";
-axios.defaults.baseURL="http://localhost/olearning/public/api";
+
 export default {
   // eslint-disable-next-line vue/no-unused-components
   components: { Form },
@@ -110,12 +111,15 @@ export default {
       university_num:this.susp.university_num,
       specialization:this.susp.specialization,
       },{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});
-        this.msg=res2.data.message
+      
+      this.msg=res.data.message
+      this.msg1='' 
       console.log(res)
     
        }
  catch (e) {
       console.log(e);
+      this.msg='' 
        this.msg1=e.response.data.message
     }
 
