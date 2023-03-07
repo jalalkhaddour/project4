@@ -86,7 +86,7 @@ export default {
                         this.isAuthenticated=true
                         console.log(this.cookies.get('access_token'))
                      this.$store.commit('AdUser/SetAuthenticated',this.isAuthenticated)
-                     
+                     this.$store.commit('setHomeAnimation',this.isAuthenticated)
                     }
                   
                 // this.$emit('successLogin',true)
