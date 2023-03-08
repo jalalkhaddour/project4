@@ -9,6 +9,7 @@ use App\Models\Student;
 use App\Models\student_courses;
 use App\Models\Student_in_exam;
 use Illuminate\Http\Request;
+use function Sodium\add;
 
 class ExamController extends Controller
 {
@@ -47,7 +48,32 @@ if($exam==null)
 
     }
 
+public function getStudyYearsList(){
+        $now=new \DateTime('now');
+        $month=$now->format('m');//03
+    $year=$now->format('Y');//2023
+    $lst=(int)$year;
+    if($month>=10){
+        $lst=(int)$year+1;
+    }
+    $years=[];
 
+
+while($lst!=2013){
+    $j=$lst-1;
+    $tem6p=$lst."/".$j;
+$years[]=$tem6p;
+$lst-=1;
+
+}
+
+
+    return response()->json([
+        'years'=>$years,
+        'lst'=>$lst,
+        'tem6p'=>$tem6p
+    ],200);
+}
     public function getMarksStudent(Request $request)
     {
         $specialization = $request->specialization;

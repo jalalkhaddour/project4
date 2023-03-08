@@ -125,6 +125,30 @@ class CourseController extends Controller
         }
     }
 
+    public function getCourseByCode(Request $request)
+    {
+        try {
+            $rules = [
+                'course_code' => 'required',
+                'specialization' => 'required'
+            ];
+            $validator = $request->validate($rules);
+            $course_code = $request->course_code;
+            $specialization = $request->specialization;
+
+            $course = Course::query()->where(['course_code ' => $course_code, 'specialization' => $specialization, 'IsActive' => true])->first();
+            return response()->json(['message'=>"success",
+                'course'=>$course],200);
+
+        }catch (ValidationException $exv){
+            return response()->json(['message'=>"خطأ في إدخال البيانات",
+                'error'=>$exv],500);
+
+        }
+
+
+    }
+
     public function getCourseBysemster(Request $request)
     {
 

@@ -69,6 +69,7 @@ Route::get('/setup', [\App\Http\Controllers\SetupPerRol::class, 'setupRolesAndPE
 //////////////////
 
 Route::post('/add_course', [CourseController::class, 'add_course']);
+Route::post('/getCourseByCode', [CourseController::class, 'getCourseByCode']);
 Route::post('/updateCourse', [CourseController::class, 'updateCourse']);
 Route::post('/getCourseBysemster', [CourseController::class, 'getCourseBysemster']);
 Route::post('/showAllCourses', [CourseController::class, 'get_all_courses']);
@@ -87,6 +88,7 @@ Route::post('/PutStudentsInClassByCourse', [CheckExamController::class, 'PutStud
 Route::post('/AddMarksCheckEx', [CheckExamController::class, 'AddMarksCheckEx']);
 Route::post('/getExamByCourse', [ExamController::class, 'getExamByCourse']);
 Route::post('/getMarksStudent', [ExamController::class, 'getMarksStudent']);
+Route::get('/getStudyYearsList', [ExamController::class, 'getStudyYearsList']);
 Route::post('/getMarksByYearStudent', [ExamController::class, 'getMarksByYearStudent']);
 Route::post('/StudentCourses', [ExamController::class, 'StudentCourses']);
 Route::post('/getStudentPunishments', [PunishmentsController::class, 'getStudentPunishments']);
