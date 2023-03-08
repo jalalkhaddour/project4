@@ -19,9 +19,9 @@
           name="semester"
           class="h-10 cursor-pointer rounded-lg"
         >
-        <option value="first">أول</option>
-          <option value="second">ثاني</option>
-          <option value="third">ثالث</option>
+        <option value="1">أول</option>
+          <option value="2">ثاني</option>
+          <option value="3">تكميلي</option>
         </select>
         <label> : الفصل&nbsp; </label>
     </div>
@@ -68,7 +68,7 @@
         <button class="bg-primary text-body text-xl rounded-lg text-center  py-1 px-5 hover:bg-hovercolor" v-if="sec=='session'" @click="transferCheck()" >ترحيل  جلسة رصد</button>
     <button class="bg-primary text-body text-xl rounded-lg text-center  py-1 px-2 hover:bg-hovercolor" v-if="sec=='halls'" ><router-link :to="{name:'hallsdistr'}">توزيع</router-link></button>
         <button class="bg-primary text-body text-xl rounded-lg text-center  py-1 px-5 hover:bg-hovercolor" >تعديل</button>
-     <button class="bg-primary text-body text-xl rounded-lg text-center  py-1 px-5 hover:bg-hovercolor" @click="marks" >حفظ</button>
+     <button class="bg-primary text-body text-xl rounded-lg text-center  py-1 px-5 hover:bg-hovercolor" @click="save" >حفظ</button>
 
 
   
@@ -110,7 +110,7 @@ export default {
       cources:[{id:0,specialization:'',name:'',year_of_course:'',IsActive:1,course_code:111,semester:''}],
       course:{},
       year_of_course:'first',
-      semester:'first',
+      semester:1,
       shtoast:false,
       msg:''
       
@@ -137,10 +137,10 @@ export default {
     },
     async save(){
       // try{
-      //        const res = await axios.post('/getExamByCourse',{
+      //        const res = await axios.post('/ExamByCourse',{
       //         code:111,
       //         specialization:'fr',
-      //         study_year:this.studyYear,
+      //         study_year:'2013/2012',
       //         Examsemster:2
       //        },{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
 
@@ -151,11 +151,11 @@ export default {
       //      }
      
       try{
-             const res = await axios.post(' /getCheckSess',{
+             const res = await axios.post('/getCheckSess',{
               code:111,
               specialization:'fr',
-              studyYear:'2014/2013',
-              studysemster:1
+              studyYear:'2013/2012',
+              studysemster:2
              },{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
 
              console.log(res)
@@ -208,7 +208,6 @@ props:['sec']
     this.studyYear=`${this.year}/${this.year+1}`
     // console.log(this.studyYear)
     this.code=this.course.course_code
-    this.semester=this.course.semester
     this.year_of_course=this.course.year_of_course
     this.$store.commit('Exam/SetCode',this.code)
     this.$store.commit('Exam/SetStudyYear',this.studyYear)
