@@ -4,7 +4,7 @@
     <div
       class="space-x-9 w-full  text-white text-lg font-medium h-10 bg-primary flex justify-end items-center">
        
-        <router-link to="/about">&nbsp;حول &nbsp;</router-link>
+        <router-link  to="/about">&nbsp;حول &nbsp;</router-link>
         <router-link to="/administrtive"  v-if="Role=='Admin' || Role=='AfAdmin' || Role=='ExAdmin'"> &nbsp;إداري &nbsp;</router-link>
         <router-link to="/" > &nbsp; الرئيسية &nbsp;</router-link>
         <img class=" h-12 w-24 pr-12 mt-3 cursor-pointer" src="../assets/Images/menu.png" @click="displaySer">

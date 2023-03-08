@@ -86,24 +86,22 @@ export default {
                         this.isAuthenticated=true
                         console.log(this.cookies.get('access_token'))
                      this.$store.commit('AdUser/SetAuthenticated',this.isAuthenticated)
-                     
+                     this.$store.commit('setHomeAnimation',this.isAuthenticated)
                     }
                   
                 // this.$emit('successLogin',true)
                    }
                catch (e) {
                     console.log(e);
-                    if(e.code=='ERR_NETWORK'){
-                            
+                    if(e.code=='ERR_NETWORK'){     
                     }else{
                         this.errors={}
                     const error=e.response.data.errors
-                    if(error.password!=null)
+                    if(error.password !=null)
                     this.errors.password=error.password.toString()
-                    if(error.username!=null)
+                    if(error.username !=null)
                     this.errors.username=error.username.toString()
-                    console.log(this.errors.username)}
-                         }
+                    console.log(this.errors.username)}}   
                    try{
                    this.access_token=this.cookies.get('access_token');
                    console.log(this.access_token);
