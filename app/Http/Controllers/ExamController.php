@@ -30,7 +30,7 @@ class ExamController extends Controller
             $years[]=$tem6p;
             $lst-=1;
 
-        }
+        }}
     public function getExamByCourse(Request $request)
     {
         $code = $request->code;
