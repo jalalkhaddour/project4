@@ -13,6 +13,24 @@ use function Sodium\add;
 
 class ExamController extends Controller
 {
+    public function getStudyYearsList(){
+        $now=new \DateTime('now');
+        $month=$now->format('m');//03
+        $year=$now->format('Y');//2023
+        $lst=(int)$year;
+        if($month>=10){
+            $lst=(int)$year+1;
+        }
+        $years=[];
+
+
+        while($lst!=2013){
+            $j=$lst-1;
+            $tem6p=$lst."/".$j;
+            $years[]=$tem6p;
+            $lst-=1;
+
+        }
     public function getExamByCourse(Request $request)
     {
         $code = $request->code;
@@ -48,7 +66,10 @@ if($exam==null)
 
     }
 
-public function getStudyYearsList(){
+
+
+public function getStudyYearsList()
+{
         $now=new \DateTime('now');
         $month=$now->format('m');//03
     $year=$now->format('Y');//2023
@@ -74,6 +95,7 @@ $lst-=1;
         'tem6p'=>$tem6p
     ],200);
 }
+
     public function getMarksStudent(Request $request)
     {
         $specialization = $request->specialization;
@@ -207,29 +229,16 @@ return response()->json([
         $yearCoursesCount = $yearCourses->count();
         $studentCouseCount = 0;
         $wholeval = 0;
-        $firstsemsterCourses = Course::where([
-            'specialization' => $student->specialization,
-            'year_of_course' => $year,
-            'semester' => 'first',
-            'IsActive'=>true
-        ])->get();
-        $secondsemsterCourses = Course::where([
-            'specialization' => $student->specialization,
-            'year_of_course' => $year,
-            'semester' => 'second',
-            'IsActive'=>true
-        ])->get();
-        $firstcourstate = [];
-        $secoundcourstate = [];
+        $yearcourstate = [];
         $avg = 0;
         $succCount = 0;
         $result = '';
         $failedCourses=[];
         $notvailCoursesOBJ=[];
-        foreach ($firstsemsterCourses as $firstsemsterCours) {
+        foreach ($yearCourses as $yearCours1) {
             $stco = student_courses::where([
                 'student_id' => $student->id,
-                'course_id' => $firstsemsterCours->id
+                'course_id' => $yearCours1->id
             ])->first();
 
             //$vvID= $stco->id;
@@ -239,57 +248,66 @@ return response()->json([
             if ($stco == null) {
                 $notvailCoursesOBJ[]=[
                     'id' =>'',
-                    'course_id'=>$firstsemsterCours->id,
-                    'course_name' => $firstsemsterCours->name,
-                    'course_code' => $firstsemsterCours->course_code,
-                    'year_of_course'=>$firstsemsterCours->year_of_course,
-                    'semester'=>$firstsemsterCours->semester,
+                    'course_id'=>$yearCours1->id,
+                    'course_name' => $yearCours1->name,
+                    'course_code' => $yearCours1->course_code,
+                    'year_of_course'=>$yearCours1->year_of_course,
+                    'semester'=>$yearCours1->semester,
                     'state' => 'غير مسجل',
                     'Mark' => 'غير مسجل',
                     'last_exam_date' =>'',
                     'issimilar' =>false,
                     'NumOfFail'=>0
                 ];
-                $firstcourstate [] = ['course_name' => $firstsemsterCours->name, 'course_code' => $firstsemsterCours->course_code, 'state' => 'غير مسجل', 'Mark' => 'غير مسجل', 'last_exam_date' => 'غير مسجل', 'issimilar' => false,'NumOfFail'=>0];
+                $yearcourstate [] = ['course_name' => $yearCours1->name,
+                    'course_code' => $yearCours1->course_code,
+                    'state' => 'غير مسجل',
+                    'Mark' => 'غير مسجل',
+                    'last_exam_date' => 'غير مسجل',
+                    'issimilar' => false,'NumOfFail'=>0,
+                    'semester'=>$yearCours1->semester
+                ];
             } elseif(($sateuss != null) and (!$sateuss->HaveNow)) {
                 $notvailCoursesOBJ[]=[
                     'id' => $stco->id,
-                    'course_id'=>$firstsemsterCours->id,
-                    'course_name' => $firstsemsterCours->name,
-                    'course_code' => $firstsemsterCours->course_code,
-                    'year_of_course'=>$firstsemsterCours->year_of_course,
-                    'semester'=>$firstsemsterCours->semester,
+                    'course_id'=>$yearCours1->id,
+                    'course_name' => $yearCours1->name,
+                    'course_code' => $yearCours1->course_code,
+                    'year_of_course'=>$yearCours1->year_of_course,
+                    'semester'=>$yearCours1->semester,
                     'state' => $sateuss->state,
                     'Mark' => 'غير مسجل',
                     'last_exam_date' =>$sateuss->last_exam_date,
                     'issimilar' => $sateuss->issimilar,
                     'NumOfFail'=>$sateuss->NumOfFails
                 ];
-                $firstcourstate [] = ['id'=>$firstsemsterCours->id,
-                    'course_name' => $firstsemsterCours->name,
-                    'course_code' => $firstsemsterCours->course_code,
+                $yearcourstate [] = ['id'=>$yearCours1->id,
+                    'course_name' => $yearCours1->name,
+                    'course_code' => $yearCours1->course_code,
                     'state' => $sateuss->state,
                     'Mark' => 'غير مسجل',
                     'last_exam_date' =>$sateuss->last_exam_date,
                     'issimilar' => $sateuss->issimilar,
-                    'NumOfFail'=>$sateuss->NumOfFails];
+                    'NumOfFail'=>$sateuss->NumOfFails,
+                    'semester'=>$yearCours1->semester
+                ];
             } else {
                 $vvID= $stco->id;
 
                 $sateuss = student_courses_state::findOrFail($vvID);
                 $studentCouseCount += 1;
-                $firstcourstate [] = [
+                $yearcourstate [] = [
                     'id' => $stco->id,
-                    'course_id'=>$firstsemsterCours->id,
-                    'course_name' => $firstsemsterCours->name,
-                    'course_code' => $firstsemsterCours->course_code,
+                    'course_id'=>$yearCours1->id,
+                    'course_name' => $yearCours1->name,
+                    'course_code' => $yearCours1->course_code,
                     'state' => $sateuss->state,
                     'Mark' => $sateuss->Mark,
                     'last_exam_date' => $sateuss->last_exam_date,
                     'issimilar' => $sateuss->issimilar,
                     'NumOfFail'=>$sateuss->NumOfFails,
-                    'year_of_course'=>$firstsemsterCours->year_of_course,
-                    'semester'=>$firstsemsterCours->semester
+                    'year_of_course'=>$yearCours1->year_of_course,
+                    'semester'=>$yearCours1->semester
                 ];
                 if ($sateuss->issimilar) {
                     $studentCouseCount -= 1;
@@ -302,80 +320,6 @@ return response()->json([
             }
         }
 
-        foreach ($secondsemsterCourses as $secondsemsterCours) {
-            $stco = student_courses::where([
-                'student_id' => $student->id,
-                'course_id' => $secondsemsterCours->id
-            ])->first();
-            if ($stco != null)
-                $sateuss = student_courses_state::find($stco->id);
-
-            if ($stco == null) {
-                $notvailCoursesOBJ[]=[
-                    'id'=>'',
-                    'course_id'=>$secondsemsterCours->id,
-                    'course_name' => $secondsemsterCours->name,
-                    'course_code' => $secondsemsterCours->course_code,
-                    'year_of_course'=>$secondsemsterCours->year_of_course,
-                    'semester'=>$secondsemsterCours->semester,
-                    'state' => 'غير مسجل',
-                    'Mark' => 'غير مسجل',
-                    'last_exam_date' =>'',
-                    'issimilar' =>false,
-                    'NumOfFail'=>0];
-                $secoundcourstate [] = [
-                    'course_name' => $secondsemsterCours->name,
-                    'course_code' => $secondsemsterCours->course_code,
-                    'state' => 'غير مسجل',
-                    'Mark' => 'غير مسجل',
-                    'last_exam_date' => 'غير مسجل',
-                    'issimilar' => false,
-                    'NumOfFail'=>0];
-            } elseif(($sateuss != null) and (!$sateuss->HaveNow)) {
-                $notvailCoursesOBJ[]=[
-                    'id'=>$stco->id,
-                    'course_id'=>$secondsemsterCours->id,
-                    'course_name' => $secondsemsterCours->name,
-                    'course_code' => $secondsemsterCours->course_code,
-                    'year_of_course'=>$secondsemsterCours->year_of_course,
-                    'semester'=>$secondsemsterCours->semester,
-                    'state' => $sateuss->state,
-                    'Mark' => 'غير مسجل',
-                    'last_exam_date' =>$sateuss->last_exam_date,
-                    'issimilar' => $sateuss->issimilar,
-                    'NumOfFail'=>$sateuss->NumOfFails];
-                $secoundcourstate [] = [
-                    'course_name' => $secondsemsterCours->name,
-                    'course_code' => $secondsemsterCours->course_code,
-                    'state' => $sateuss->state,
-                    'Mark' => 'غير مسجل',
-                    'last_exam_date' =>$sateuss->last_exam_date,
-                    'issimilar' => $sateuss->issimilar,
-                    'NumOfFail'=>$sateuss->NumOfFails];
-            }else{
-
-                $studentCouseCount += 1;
-                $secoundcourstate [] = [
-                    'course_name' => $secondsemsterCours->name,
-                    'course_code' => $secondsemsterCours->course_code,
-                    'state' => $sateuss->state,
-                    'Mark' => $sateuss->Mark,
-                    'last_exam_date' => $sateuss->last_exam_date,
-                    'issimilar' => $sateuss->issimilar,
-                    'NumOfFail'=>$sateuss->NumOfFails,
-                    'year_of_course'=>$secondsemsterCours->year_of_course,
-                    'semester'=>$secondsemsterCours->semester
-                ];
-                if ($sateuss->issimilar) {
-                    $studentCouseCount -= 1;
-                    $yearCoursesCount -= 1;
-                }
-                if ($sateuss->Mark >= 50) {
-                    $wholeval += $sateuss->state()->Mark;
-                    $succCount += 1;
-                }
-            }
-        }
         $def = $yearCoursesCount - $succCount;
         if ($yearCoursesCount == $succCount) {
             $avg = 100 * ($wholeval / $succCount);
@@ -385,8 +329,7 @@ return response()->json([
         }elseif($def >4 and $studentCouseCount==$yearCoursesCount)
             $result='راسب';
         return [
-            'first_semster' => $firstcourstate,
-            'second_semster' => $secoundcourstate,
+            'year_courses_st' => $yearcourstate,
             'wholeval' => $wholeval,
             'Avg' => $avg,
             'Year_Courses_Count'=>$yearCoursesCount,
