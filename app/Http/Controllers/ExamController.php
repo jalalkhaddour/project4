@@ -13,24 +13,24 @@ use function Sodium\add;
 
 class ExamController extends Controller
 {
-    public function getStudyYearsList(){
-        $now=new \DateTime('now');
-        $month=$now->format('m');//03
-        $year=$now->format('Y');//2023
-        $lst=(int)$year;
-        if($month>=10){
-            $lst=(int)$year+1;
-        }
-        $years=[];
+    // public function getStudyYearsList(){
+    //     $now=new \DateTime('now');
+    //     $month=$now->format('m');//03
+    //     $year=$now->format('Y');//2023
+    //     $lst=(int)$year;
+    //     if($month>=10){
+    //         $lst=(int)$year+1;
+    //     }
+    //     $years=[];
 
 
-        while($lst!=2013){
-            $j=$lst-1;
-            $tem6p=$lst."/".$j;
-            $years[]=$tem6p;
-            $lst-=1;
+    //     while($lst!=2013){
+    //         $j=$lst-1;
+    //         $tem6p=$lst."/".$j;
+    //         $years[]=$tem6p;
+    //         $lst-=1;
 
-        }}
+    //     }}
     public function getExamByCourse(Request $request)
     {
         $code = $request->code;

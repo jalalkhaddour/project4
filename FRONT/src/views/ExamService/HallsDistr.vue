@@ -56,9 +56,8 @@
         </label>
       </div>
       <div class="flex items-center">
-        <select class="  rounded-lg search   bg-no-repeat p-1     w-32    text-right hover:border hover:border-primary ">
-          <option value="first">أولى</option>
-
+        <select class="h-10 cursor-pointer rounded-lg ml-0  " v-model="studyYear">
+          <option v-for="year in study_year" :key="year" :value="year">{{ year }}</option>
         </select>
         <label class="text-lg text-primary p-1 ">
           : العام الدراسي
@@ -119,7 +118,8 @@ export default {
       cources: [],
       code: 0,
       sec: false,
-      cla: {}
+      cla: {},
+      studyYear:''
     }
   }
   , methods: {
@@ -160,6 +160,8 @@ export default {
   }, computed: {
 
     ...mapGetters(["spec"]),
+    ...mapGetters('Exam', ['study_year']),
+
 
   },
 }

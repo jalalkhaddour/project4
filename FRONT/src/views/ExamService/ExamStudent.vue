@@ -48,7 +48,7 @@
      
    </div>
 <div class="">
-  <Subject v-if="section=='subject'" @sr="sr" :failed="allcourses" :data="data"/>
+  <Subject v-if="section=='subject'" @sr="sr" :failed="allcourses" />
    <StudentHalls v-if="section=='halls'" :student1="student1"></StudentHalls>
  <Punishment v-if="section=='punshiment'" @open="open" ></Punishment>
 </div>
@@ -91,7 +91,6 @@ export default {
 
   components:{Subject,StudentHalls,Punishment,AddPunshiment},
   setup(){
-     const data=ref([])
      const section=ref('') 
      const select=(s,d)=>{section.value=s;}
      const name =ref('')
@@ -123,7 +122,7 @@ export default {
      
    const allcourses=ref([{course_code : '',id: '',name: "",semester: "",specialization: "",year_of_course: ""}]);
     const status =ref({})
-    return{select,section,id,name,search,sr,sure,student1,allcourses,status,failed,data}},
+    return{select,section,id,name,search,sr,sure,student1,allcourses,status,failed}},
 
 
 methods:{
@@ -150,18 +149,7 @@ methods:{
       console.log(e);
     }  
     
-    try{
-             const res = await axios.post('/getMarksStudent',{
-              specialization:'fr',
-              university_num:1007
-             },{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
-
-             console.log(res)
-             this.data=res.data
-              }
-        catch (e) {
-             console.log(e);
-           }     
+  
  
     },open(d){
       this.addp=d

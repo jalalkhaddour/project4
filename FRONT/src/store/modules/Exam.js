@@ -2,7 +2,7 @@ const Exam = {
     namespaced: true,
     state: {
         c_code: 0,
-        study_year: "",
+        study_year: {},
         semster: "",
     },
     getters: {
