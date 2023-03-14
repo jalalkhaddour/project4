@@ -130,16 +130,16 @@
               <th>رقماً</th>
 
             </tr>
-            <tbody  v-for="s in merg" :key="s.id" >
+            <tbody  v-for="s in year1.year_courses_st" :key="s.id" >
               
                  
                   <tr > 
                     <td colspan="2"> </td>
-                  <td></td>
-                  <td colspan="3"> </td> 
+                  <td>{{ s.semester == 'second'? s.Mark:'' }}</td>
+                  <td colspan="3">{{ s.semester == 'second'? s.course_name:'' }} </td> 
                     <td colspan="2"> </td>
-                  <td></td>
-                  <td colspan="3"></td> </tr>
+                  <td>{{ s.semester == 'first'? s.Mark:'' }}</td>
+                  <td colspan="3">{{ s.semester == 'first'? s.course_name:'' }}</td> </tr>
                 
                
             </tbody>
@@ -398,6 +398,7 @@ import { mapGetters } from 'vuex'
 
 import { ref } from '@vue/reactivity'
 export default {
+  
   setup() {
     const year1 = ref({})
     const year2 = ref({})
@@ -524,65 +525,65 @@ export default {
 
   }, computed: {
     ...mapGetters(["spec", "dept"]),
-    merg1(){
-      const first={}
-      for(const f of this.year1.first_semster)
+    // merg1(){
+    //   const first={}
+    //   for(const f of this.year1.first_semster)
   
-      {
-        const second=f.second
-        first[second]=first[second]||[]
-        first[second].push(f)
-      }
-      console.log(first)
-      return first
-    },
-    merg(){
-     const year=this.year1
-     const first=year.first_semster
-     const second=year.second_semster
-      var newyear=[]
-      const newyear1=[]
-      const newyear2=[]
-      var id=0
-          var hh={} 
-          for(var e of first){
-           var type='f' 
+    //   {
+    //     const second=f.second
+    //     first[second]=first[second]||[]
+    //     first[second].push(f)
+    //   }
+    //   console.log(first)
+    //   return first
+    // },
+    // merg(){
+    //  const year=this.year1
+    //  const first=year.first_semster
+    //  const second=year.second_semster
+    //   var newyear=[]
+    //   const newyear1=[]
+    //   const newyear2=[]
+    //   var id=0
+    //       var hh={} 
+    //       for(var e of first){
+    //        var type='f' 
             
-            var r=e
-            newyear1.push({e})
-            newyear1[id]=newyear1[id]||[]
-            id++
-          }
-          for(var ew of second){
-           var type='s'
-           newyear2[id]=newyear2[id]||[]
-           var r=ew
-           newyear2.push({ew})
-          id++
-          }
+    //         var r=e
+    //         newyear1.push({e})
+    //         newyear1[id]=newyear1[id]||[]
+    //         id++
+    //       }
+    //       for(var ew of second){
+    //        var type='s'
+    //        newyear2[id]=newyear2[id]||[]
+    //        var r=ew
+    //        newyear2.push({ew})
+    //       id++
+    //       }
           
-          // var le=first.length+second.length-1
-          // console.log(le)
+    //       // var le=first.length+second.length-1
+    //       // console.log(le)
           
-          for(var e of first){
-            for(var ew of second){
-           newyear.push({e,ew})
-           newyear=newyear||[]
+    //       for(var e of first){
+    //         for(var ew of second){
+    //        newyear.push({e,ew})
+    //        newyear=newyear||[]
 
-          //  console.log({e,ew})
+    //       //  console.log({e,ew})
 
-          id++
+    //       id++
               
-            }
-          }
-          newyear.filter((item,index)=>{newyear.indexOf(item)===index 
-          })
+    //         }
+    //       }
+    //       newyear.filter((item,index)=>{newyear.indexOf(item)===index 
+    //       })
          
           
           
-          console.log(newyear)
-          return newyear
-    }
+    //       console.log(newyear)
+    //       return newyear
+    // }
   }
 }
 </script>
