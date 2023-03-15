@@ -29,9 +29,13 @@ class PunishmentsController extends Controller
     {
         $specialization = $request->specialization;
         $university_num = $request->university_num;
-        $student = Student::where(['university_num' => $university_num, 'specialization' => $specialization])->first();
+        // $student = Student::where(['university_num' => $university_num, 'specialization' => $specialization])->first();
+        $student = Student::query()->where(['university_num' => $university_num, 'specialization' => $specialization])->first();
+        $student_id=$student->id;
+        $punishments=punishment::query()->where('student_id',$student_id)->get();
 
-        $punishments = $student->punishments();
+        // $punishments = $student->punishments();
+      
         $results = [];
         foreach ($punishments as $punishment) {
             $results [] = $this->ResultFormatter($punishment);
