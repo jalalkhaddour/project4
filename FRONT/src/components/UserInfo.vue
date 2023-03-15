@@ -1,5 +1,5 @@
 <template lang="">
-      <div class=" space-x-2 space-y-3 pt-2 text-white  bg-primary text-xl" >
+      <div class=" space-x-2 space-y-3 pt-2 text-white rounded-xl bg-primary text-xl" >
          <div class="w-52 hover:bg-hovercolor rounded-5 m-2">
           <p @click="logout" style="text-align: center">تسجيل خروج</p>
            <hr class="bg-body" />
@@ -32,6 +32,8 @@ methods:{
         this.$cookies.set('access_token','')
        this.$store.commit('AdUser/SetCookies',this.$cookies) 
        this.$store.commit('AdUser/SetAuthenticated',false)
+       this.$store.commit('setHomeAnimation2',false)
+       this.$store.commit('setHomeAnimation',false)
     
        
       }
@@ -54,6 +56,7 @@ methods:{
     }
 },computed:{
          ...mapGetters('AdUser',['username','password','Authenticated','cookies']),
+         ... mapGetters(["homeAnimation","homeAnimation2"]),
 
   },components:{ChangePass}
 }

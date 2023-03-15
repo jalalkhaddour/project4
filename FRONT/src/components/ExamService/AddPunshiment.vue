@@ -37,7 +37,7 @@
               </div>
              
              
-                 <div class="text-lg   rounded-lg  mx-28 text-red-500" v-if="msg.length!=''">
+                 <div class="text-lg   rounded-lg  mx-28 text-green-800" v-if="msg.length!=''">
                   {{msg}}
                 </div>  
             </form>
@@ -79,6 +79,7 @@ export default {
              ,{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
            
              console.log(res)
+             this.msg="تم إتمام العملية"
               }
         catch (e) {
              console.log(e);

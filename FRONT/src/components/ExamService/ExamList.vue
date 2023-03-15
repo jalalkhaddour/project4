@@ -1,5 +1,5 @@
 <template>
-<div class="space-x-2 space-y-2"> 
+<div class="space-x-2 space-y-2 "> 
   <!-- <div class="w-52 hover:bg-hovercolor rounded-5 m-2">
     <router-link to="">
       <p style="text-align: center">الانقطاعات</p></router-link>

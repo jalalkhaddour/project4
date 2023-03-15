@@ -33,14 +33,14 @@
     </div>
     <div class="flex flex-col items-center text-right text-primary space-y-2 text-xl mt-5">
 
-      <form action="" @submit.prevent="SearchCourse()"
+      <div 
         class="text-primary flex justify-between font-medium text-2xl space-x-6">
         <div class="flex items-center justify-center">
           <div class="flex justify-center items-center">
             <button
-              class="   bg-primary text-body text-xl rounded-lg  text-center  m-2  py-1  px-2   hover:bg-hovercolor   ">بحث
+              class="   bg-primary text-body text-xl rounded-lg  text-center  m-2  py-1  px-2   hover:bg-hovercolor   " @click="search">بحث
             </button>
-            <input type="text" v-model="code"
+            <input type="text" v-model="code1"
               class="  rounded-lg   search bg-no-repeat p-3    w-32    text-right hover:border hover:border-primary "
               dir="auto" />
           </div>
@@ -48,7 +48,7 @@
             <label for="id" class="pr-10">: الرقم</label>
           </div>
         </div>
-      </form>
+      </div>
       <div class=" space-x-2">
         <select class="h-10 cursor-pointer rounded-lg ml-0  w-72" v-model="course">
           <option v-for="course in cources" :key="course.id" :value="course">{{ course.name }}</option>
@@ -108,6 +108,7 @@ export default {
   data() {
     return {
       code: '',
+      code1:'',
       studyYear: '',
       year: 2000,
       cources: [{ id: 0, specialization: '', name: '', year_of_course: '', IsActive: 1, course_code: 111, semester: '' }],
@@ -180,6 +181,16 @@ export default {
         console.log(e);
       }
 
+    },async search(){
+      try {
+        const res = await axios.post('/getCourseByCode', { course_code: this.code1, specialization: this.spec},
+          { headers: { 'Authorization': 'Bearer ' + this.$cookies.get('access_token'), 'Access-Control-Allow-Credentials': true } });
+
+        console.log(res)
+       
+      } catch (error) {
+        console.log(error)
+      }
     }
 
   },

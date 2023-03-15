@@ -1,17 +1,20 @@
 <script>
+import AboutView from './views/AboutView.vue';
 import Home from './views/HomeView.vue'
 
 export default{
   props: {
   },
-components:{Home}
+components:{ Home, AboutView }
 }
 
 </script>
 
 <template >
 
-  <router-view></router-view>
+  
+<router-view></router-view>
+
 </template>
 
 <style>
@@ -60,5 +63,19 @@ components:{Home}
       90%{transform: translateX(-4px);}   
       100%{transform: translateX(0px);}   
    }
-
+/* Route Transition */
+.route-enter-form{
+  opacity:0;
+  transform:translateX(100px)
+}
+.route-enter-active{
+  transition:all 0.3s ease-out
+}
+.route-leave-to{
+  opacity:0;
+  transform:translateX(-100px)
+}
+.route-leave-active{
+  transition: all 0.3s ease-in;
+}
 </style>

@@ -34,7 +34,7 @@
           <tbody v-for="s in students" :key="s">
                <tr >
                   <td >{{s.reason}}</td>
-                  <td>{{spec}}</td>
+                  <td>{{specs}}</td>
                    <td>{{s.new_university}}</td> 
                    <td>{{s.stop_year}}</td>
                    <td>{{s.student_id}}</td>
@@ -53,44 +53,50 @@ import axios from "axios";
 
 export default {
 
-  data () {
+  data() {
     return {
-      students:[{}] ,
-      search:'',
-     
-  
-     
-     
+      students: [{}],
+      search: '',
+      specs:''
     }
   },
-          methods:{
-         
-    back(){
-        this.$router.go(-1)
-    } 
-},async mounted() {
-     try{
-            const res = await axios.post('/getstop',{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
-           
-            this.students=res.data.data
-             console.log(res)
-              }
-        catch (e) {
-             console.log(e);
-           }
-    
-  },
-computed:{
-     ...mapGetters('Student',['university_num','fullname']),
-      ... mapGetters(["spec"]),
+  methods: {
 
-  findUser(){
-    return this.users.filter(us =>{
-      return us.fname.match(this.search)
-    })
-  }
-  
-},
+    back() {
+      this.$router.go(-1)
+    }
+  }, async mounted() {
+    try {
+      const res = await axios.post('/getstop', { headers: { 'Authorization': 'Bearer ' + this.$cookies.get('access_token'), 'Access-Control-Allow-Credentials': true } });
+
+      this.students = res.data.data
+      switch (this.spec) {
+        case 'fr':
+          this.specs = "فرنسي";
+          break;
+        case 'en':
+          this.specs = "إنكليزي";
+          break;
+      }
+
+      console.log(res)
+    }
+    catch (e) {
+      console.log(e);
+    }
+
+  },
+  computed: {
+    ...mapGetters('Student', ['university_num', 'fullname']),
+    ...mapGetters(["spec"]),
+
+    findUser() {
+      return this.users.filter(us => {
+        return us.fname.match(this.search)
+      })
+    }
+
+  },
 
 }
 </script>

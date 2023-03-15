@@ -10,7 +10,7 @@ class Punishment extends Model
     use HasFactory;
     protected $table='punishments';
     protected $fillable=[
-        'reason','type','seasons_period','IsOut'
+        'reason','type','seasons_period','IsOut','student_id'
     ];
 
     public function Student(){
