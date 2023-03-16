@@ -1,7 +1,7 @@
 <template>
    <div class="backdrop "  >
-     <div class="text-2xl text-primary flex space-y-2 rounded-lg flex-col my-56 border-3 w-96 bg-body mx-auto  border-primary"    >
-       <div class=" h-9 flex items-center relative w-full bg-primary p-3 pt-4 "  >
+     <div class="text-2xl text-primary flex space-y-2 rounded-xl flex-col my-52  border-3 w-96 bg-body mx-auto  border-primary"    >
+       <div class=" h-9 flex items-center relative w-full bg-primary p-3 pt-4 rounded-t-lg"  >
        <img src="../../assets/Images/close-box.png" class=" absolute right-3  cursor-pointer" @click="handle(false)" alt="">
        </div>
        <div class="text-lg text-right  text-red-700 mx-auto pr-48 ">{{error.oldpass}}</div>

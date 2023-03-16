@@ -25,13 +25,17 @@ class PunishmentsController extends Controller
         return response()->json($results, 200);
     }
 
-    public function getStudentPunishments()
+    public function getStudentPunishments(Request $request)
     {
         $specialization = $request->specialization;
         $university_num = $request->university_num;
-        $student = Student::where(['university_num' => $university_num, 'specialization' => $specialization])->first();
+        // $student = Student::where(['university_num' => $university_num, 'specialization' => $specialization])->first();
+        $student = Student::query()->where(['university_num' => $university_num, 'specialization' => $specialization])->first();
+        $student_id=$student->id;
+        $punishments=punishment::query()->where('student_id',$student_id)->get();
 
-        $punishments = $student->punishments();
+        // $punishments = $student->punishments();
+      
         $results = [];
         foreach ($punishments as $punishment) {
             $results [] = $this->ResultFormatter($punishment);
@@ -176,7 +180,7 @@ return response()->json([
             $ISS="العقوبة ليست استنفاذ";
 
         return [
-            'id' => $request->id;
+            'id' => $request->id,
         'student_name' => $student->fullname,
             'university_num' => $student->university_num,
             'reason' => $request->reason,

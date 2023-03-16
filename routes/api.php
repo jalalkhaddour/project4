@@ -31,8 +31,10 @@ Route::post('/login', [UserController::class, 'login'])->middleware('guest');
 Route::post('/transfer', [\App\Http\Controllers\TransferController::class, 'transfer']);
 
 Route::post('/stop', [\App\Http\Controllers\StopController::class, 'stop']);
+Route::post('/getstop', [\App\Http\Controllers\StopController::class, 'getstopstd']);
 
 Route::post('/suspension', [\App\Http\Controllers\SuspensionController::class, 'suspension']);
+Route::post('/getsuspension', [\App\Http\Controllers\SuspensionController::class, 'getStudentSuspense']);
 
 Route::post('/createStudent', [\App\Http\Controllers\StudentController::class, 'createStudent']);
 Route::post('/updateStudent', [\App\Http\Controllers\StudentController::class, 'updateStudent']);
