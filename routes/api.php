@@ -87,7 +87,7 @@ Route::post('/transferCheckExAdmin', [ExamController::class, 'transferCheckExAdm
 Route::post('/PutStudentsInClassByCourse', [CheckExamController::class, 'PutStudentsInClassByCourse']);
 Route::post('/AddMarksCheckEx', [CheckExamController::class, 'AddMarksCheckEx']);
 Route::post('/getExamByCourse', [ExamController::class, 'getExamByCourse']);
-Route::post('/getMarksStudent', [ExamController::class, 'getMarksStudent']);
+Route::any('/getMarksStudent', [ExamController::class, 'getMarksStudent']);
 Route::get('/getStudyYearsList', [ExamController::class, 'getStudyYearsList']);
 Route::post('/getMarksByYearStudent', [ExamController::class, 'getMarksByYearStudent']);
 Route::post('/StudentCourses', [ExamController::class, 'StudentCourses']);

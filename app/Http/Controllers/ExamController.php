@@ -95,6 +95,105 @@ class ExamController extends Controller
 
         }
 
+    public function getMarksYearStudent(string $year, Student $student)
+    {
+        $yearCourses = Course::where(['specialization' => $student->specialization, 'year_of_course' => $year,'IsActive'=>true])->get();
+        $yearCoursesCount = $yearCourses->count();
+        $studentCouseCount = 0;
+        $wholeval = 0;
+        $firstsemsterCourses = Course::where(['specialization' => $student->specialization, 'year_of_course' => $year, 'semester' => 'first','IsActive'=>true])->get();
+        $secondsemsterCourses = Course::where(['specialization' => $student->specialization, 'year_of_course' => $year, 'semester' => 'second','IsActive'=>true ])->get();
+        $firstcourstate = [];
+        $secoundcourstate = [];
+        $avg = 0;
+        $succCount = 0;
+        $result = '';
+        $failedCourses=[];
+        foreach ($firstsemsterCourses as $firstsemsterCours) {
+            $stco = student_courses::where(['student_id' => $student->id, 'course_id' => $firstsemsterCours->id])->first();
+            if ($stco == null) {
+                $firstcourstate [] = [
+                    'id' => 0,
+                    'course_name' => $firstsemsterCours->name,
+                    'course_code' => $firstsemsterCours->course_code,
+                    'state' => 'غير مسجل',
+                    'Mark' => '',
+                    'last_exam_date' => '',
+                    'semester'=>$firstsemsterCours->semester,
+                    'issimilar' => false];
+            } else {
+                $sttt=$stco->states;
+                $studentCouseCount += 1;
+                $firstcourstate [] = [
+                    'id' => $stco->id,
+                    'course_name' => $firstsemsterCours->name,
+                    'semester'=>$firstsemsterCours->semester,
+                    'course_code' => $firstsemsterCours->course_code,
+                    'state' => $sttt->state,
+                    'Mark' => $sttt->Mark,
+                    'last_exam_date' => $sttt->last_exam_date,
+                    'issimilar' => $sttt->issimilar
+                ];
+                if ($sttt->issimilar) {
+                    $studentCouseCount -= 1;
+                    $yearCoursesCount -= 1;
+                }
+                if ($sttt->Mark >= 50) {
+                    $wholeval += $sttt->Mark;
+                    $succCount += 1;
+                }else{
+                    $failedCourses[]=$firstsemsterCours->name;
+                }
+            }
+        }
+        foreach ($secondsemsterCourses as $secondsemsterCours) {
+            $stco = student_courses::where(['student_id' => $student->id, 'course_id' => $secondsemsterCours->id])->first();
+            if ($stco == null) {
+                $secoundcourstate [] = ['course_name' => $secondsemsterCours->name,
+                    'semester'=>$secondsemsterCours->semester, 'course_code' => $secondsemsterCours->course_code, 'state' => 'غير مسجل', 'Mark' => 'غير مسجل', 'last_exam_date' => 'غير مسجل', 'issimilar' => false];
+            } else {
+                $sttt=$stco->states;
+                $studentCouseCount += 1;
+                $secoundcourstate [] = [
+                    'course_name' => $secondsemsterCours->name,
+                    'course_code' => $secondsemsterCours->course_code,
+                    'state' => $sttt->state,
+                    'Mark' => $sttt->Mark,
+                    'last_exam_date' => $sttt->last_exam_date,
+                    'semester'=>$secondsemsterCours->semester,
+                    'issimilar' => $sttt->issimilar
+                ];
+                if ($sttt->issimilar) {
+                    $studentCouseCount -= 1;
+                    $yearCoursesCount -= 1;
+                }
+                if ($sttt->Mark >= 50) {
+                    $wholeval += $sttt->Mark;
+                    $succCount += 1;
+                }else{
+                    $failedCourses[]=$firstsemsterCours->name;
+                }
+            }
+        }
+        $def = $yearCoursesCount - $succCount;
+        if ($yearCoursesCount == $succCount) {
+            $avg = 100 * ($wholeval / $succCount);
+            $result = 'نجاح';
+        } elseif ($def <= 4) {
+            $result = 'منقول';
+        }elseif($def >4 and $studentCouseCount==$yearCoursesCount)
+            $result='راسب';
+        return [
+            'first_semster' => $firstcourstate,
+            'second_semster' => $secoundcourstate,
+            'wholeval' => $wholeval,
+            'Avg' => $avg,
+            'Year_Courses_Count'=>$yearCoursesCount,
+            'success_courses'=>$succCount,
+            'failedCourse'=>$failedCourses,
+            'result' => $result
+        ];
+    }
         public function getMarksByYearStudent(Request $request)
         {
 
@@ -203,126 +302,6 @@ class ExamController extends Controller
 
             ], 200);
 
-        }
-
-        public function getMarksYearStudent(string $year, Student $student)
-        {
-            $yearCourses = Course::where([
-                'specialization' => $student->specialization,
-                'year_of_course' => $year,
-                'IsActive' => true])->get();
-            $yearCoursesCount = $yearCourses->count();
-            $studentCouseCount = 0;
-            $wholeval = 0;
-            $yearcourstate = [];
-            $avg = 0;
-            $succCount = 0;
-            $result = '';
-            $failedCourses = [];
-            $notvailCoursesOBJ = [];
-            foreach ($yearCourses as $yearCours1) {
-                $stco = student_courses::where([
-                    'student_id' => $student->id,
-                    'course_id' => $yearCours1->id
-                ])->first();
-
-                //$vvID= $stco->id;
-                if ($stco != null)
-                    $sateuss = student_courses_state::find($stco->id);
-
-                if ($stco == null) {
-                    $notvailCoursesOBJ[] = [
-                        'id' => '',
-                        'course_id' => $yearCours1->id,
-                        'course_name' => $yearCours1->name,
-                        'course_code' => $yearCours1->course_code,
-                        'year_of_course' => $yearCours1->year_of_course,
-                        'semester' => $yearCours1->semester,
-                        'state' => 'غير مسجل',
-                        'Mark' => 'غير مسجل',
-                        'last_exam_date' => '',
-                        'issimilar' => false,
-                        'NumOfFail' => 0
-                    ];
-                    $yearcourstate [] = ['course_name' => $yearCours1->name,
-                        'course_code' => $yearCours1->course_code,
-                        'state' => 'غير مسجل',
-                        'Mark' => 'غير مسجل',
-                        'last_exam_date' => 'غير مسجل',
-                        'issimilar' => false, 'NumOfFail' => 0,
-                        'semester' => $yearCours1->semester
-                    ];
-                } elseif (($sateuss != null) and (!$sateuss->HaveNow)) {
-                    $notvailCoursesOBJ[] = [
-                        'id' => $stco->id,
-                        'course_id' => $yearCours1->id,
-                        'course_name' => $yearCours1->name,
-                        'course_code' => $yearCours1->course_code,
-                        'year_of_course' => $yearCours1->year_of_course,
-                        'semester' => $yearCours1->semester,
-                        'state' => $sateuss->state,
-                        'Mark' => 'غير مسجل',
-                        'last_exam_date' => $sateuss->last_exam_date,
-                        'issimilar' => $sateuss->issimilar,
-                        'NumOfFail' => $sateuss->NumOfFails
-                    ];
-                    $yearcourstate [] = ['id' => $yearCours1->id,
-                        'course_name' => $yearCours1->name,
-                        'course_code' => $yearCours1->course_code,
-                        'state' => $sateuss->state,
-                        'Mark' => 'غير مسجل',
-                        'last_exam_date' => $sateuss->last_exam_date,
-                        'issimilar' => $sateuss->issimilar,
-                        'NumOfFail' => $sateuss->NumOfFails,
-                        'semester' => $yearCours1->semester
-                    ];
-                } else {
-                    $vvID = $stco->id;
-
-                    $sateuss = student_courses_state::findOrFail($vvID);
-                    $studentCouseCount += 1;
-                    $yearcourstate [] = [
-                        'id' => $stco->id,
-                        'course_id' => $yearCours1->id,
-                        'course_name' => $yearCours1->name,
-                        'course_code' => $yearCours1->course_code,
-                        'state' => $sateuss->state,
-                        'Mark' => $sateuss->Mark,
-                        'last_exam_date' => $sateuss->last_exam_date,
-                        'issimilar' => $sateuss->issimilar,
-                        'NumOfFail' => $sateuss->NumOfFails,
-                        'year_of_course' => $yearCours1->year_of_course,
-                        'semester' => $yearCours1->semester
-                    ];
-                    if ($sateuss->issimilar) {
-                        $studentCouseCount -= 1;
-                        $yearCoursesCount -= 1;
-                    }
-                    if ($sateuss->Mark >= 50) {
-                        $wholeval += $sateuss->Mark;
-                        $succCount += 1;
-                    }
-                }
-            }
-
-            $def = $yearCoursesCount - $succCount;
-            if ($yearCoursesCount == $succCount) {
-                $avg = 100 * ($wholeval / $succCount);
-                $result = 'نجاح';
-            } elseif ($def <= 4) {
-                $result = 'منقول';
-            } elseif ($def > 4 and $studentCouseCount == $yearCoursesCount)
-                $result = 'راسب';
-            return [
-                'year_courses_st' => $yearcourstate,
-                'wholeval' => $wholeval,
-                'Avg' => $avg,
-                'Year_Courses_Count' => $yearCoursesCount,
-                'success_courses' => $succCount,
-                'failedCourse' => $failedCourses,
-                'notvailCoursesOBJ' => $notvailCoursesOBJ,
-                'result' => $result
-            ];
         }
 
         public function transferCheckExAdmin(Request $request)
