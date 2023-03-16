@@ -136,7 +136,7 @@ class CourseController extends Controller
             $course_code = $request->course_code;
             $specialization = $request->specialization;
 
-            $course = Course::query()->where(['course_code ' => $course_code, 'specialization' => $specialization, 'IsActive' => true])->first();
+            $course = Course::query()->where(['course_code' => $course_code, 'specialization' => $specialization, 'IsActive' => true])->first();
             return response()->json(['message'=>"success",
                 'course'=>$course],200);
 

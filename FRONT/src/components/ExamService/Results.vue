@@ -37,39 +37,52 @@
 
 import axios from "axios";
 import { mapGetters } from "vuex";
-
 export default {
-  data () {
+  data() {
     return {
-          results:[],
-          data:{}
-  }},
-  methods: {
-    
-   
-  },async mounted() {
-    try{
-             const res = await axios.post('/ExamByCourse',{
-              code:111,
-              specialization:'fr',
-              study_year:'2013/2012',
-              Examsemster:2
-             },{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
-
-             console.log(res)
-             this.data=res.data
-             this.results=this.data.results
-             console.log(this.data)
-              }
-        catch (e) {
-             console.log(e);
-           }
-    
-  },computed: {
-    ...mapGetters(["spec"]),
-    ...mapGetters('Exam',['c_code','study_year','semster']),
+      results: [],
+      data: {},
+      
+    }
   },
-  
+  methods: {
+  async refresh(){
+    try {
+      const res = await axios.post('/ExamByCourse', {
+        code: this.c_code,
+        specialization: this.spec,
+        study_year: '2013/2012',
+        Examsemster: this.semster
+      }, { headers: { 'Authorization': 'Bearer ' + this.$cookies.get('access_token'), 'Access-Control-Allow-Credentials': true } });
+
+      console.log(res)
+      this.data = res.data
+      this.results = this.data.results
+      console.log(this.data)
+    }
+    catch (e) {
+      console.log(e);
+    }
+  }
+
+  }, async mounted() {
+    this.refresh()
+  }, computed: {
+    ...mapGetters(["spec"]),
+    ...mapGetters('Exam', ['c_code', 'study_year', 'semster', 'selYear']),
+  }
+ 
+  ,watch:{
+    selYear(){
+      this.refresh()
+    },
+    c_code(){
+      this.refresh()
+    },
+    semster(){
+      this.refresh()
+    }
+  }
 }
 </script>
 <style lang="">

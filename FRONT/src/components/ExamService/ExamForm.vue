@@ -14,9 +14,9 @@
     <div class="flex flex-col items-center text-right text-primary space-y-4 text-xl mt-5 ">
       <div class=" space-x-2">
         <select v-model="semester" name="semester" class="h-10 cursor-pointer rounded-lg">
-          <option value="1">أول</option>
-          <option value="2">ثاني</option>
-          <option value="3">تكميلي</option>
+          <option value=1>أول</option>
+          <option value=2>ثاني</option>
+          <option value=3>تكميلي</option>
         </select>
         <label> : الفصل&nbsp; </label>
       </div>
@@ -50,7 +50,7 @@
         </div>
       </div>
       <div class=" space-x-2">
-        <select class="h-10 cursor-pointer rounded-lg ml-0  w-72" v-model="course">
+        <select class="h-10 cursor-pointer rounded-lg ml-0  w-72" v-model="course" @click.self="code1=''">
           <option v-for="course in cources" :key="course.id" :value="course">{{ course.name }}</option>
         </select>
         <label class="">: المقرر </label>
@@ -111,7 +111,7 @@ export default {
       code1:'',
       studyYear: '',
       year: 2000,
-      cources: [{ id: 0, specialization: '', name: '', year_of_course: '', IsActive: 1, course_code: 111, semester: '' }],
+      cources: [{ id: 0, specialization: '', name: '', year_of_course: '', IsActive: 1, course_code: 111, semester: 1 }],
       course: {},
       year_of_course: 'first',
       semester: 1,
@@ -140,33 +140,33 @@ export default {
       }
     },
     async save() {
-      // try{
-      //        const res = await axios.post('/ExamByCourse',{
-      //         code:111,
-      //         specialization:'fr',
-      //         study_year:'2013/2012',
-      //         Examsemster:2
-      //        },{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
+      try{
+             const res = await axios.post('/ExamByCourse',{
+              code:111,
+              specialization:'fr',
+              study_year:'2013/2012',
+              Examsemster:2
+             },{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
 
-      //        console.log(res)
-      //         }
-      //   catch (e) {
-      //        console.log(e);
-      //      }
+             console.log(res)
+              }
+        catch (e) {
+             console.log(e);
+           }
 
-      try {
-        const res = await axios.post('/getCheckSess', {
-          code: 111,
-          specialization: 'fr',
-          studyYear: '2013/2012',
-          studysemster: 2
-        }, { headers: { 'Authorization': 'Bearer ' + this.$cookies.get('access_token'), 'Access-Control-Allow-Credentials': true } });
+      // try {
+      //   const res = await axios.post('/getCheckSess', {
+      //     code: 111,
+      //     specialization: 'fr',
+      //     studyYear: '2013/2012',
+      //     studysemster: 2
+      //   }, { headers: { 'Authorization': 'Bearer ' + this.$cookies.get('access_token'), 'Access-Control-Allow-Credentials': true } });
 
-        console.log(res)
-      }
-      catch (e) {
-        console.log(e);
-      }
+      //   console.log(res)
+      // }
+      // catch (e) {
+      //   console.log(e);
+      // }
     }, async marks() {
       try {
         const res = await axios.post('/getMarksByYearStudent', {
@@ -187,7 +187,10 @@ export default {
           { headers: { 'Authorization': 'Bearer ' + this.$cookies.get('access_token'), 'Access-Control-Allow-Credentials': true } });
 
         console.log(res)
-       
+       const course1=res.data.course
+       console.log(course1)
+      //  this.code=course1.course_code
+       this.course=course1
       } catch (error) {
         console.log(error)
       }
@@ -224,7 +227,7 @@ export default {
 
   }, computed: {
     ...mapGetters(["spec"]),
-    ...mapGetters('Exam', ['c_code', 'study_year', 'semster']),
+    ...mapGetters('Exam', ['c_code', 'study_year', 'semster','selYear']),
 
   },
   updated() {
@@ -234,7 +237,8 @@ export default {
     this.code = this.course.course_code
     this.year_of_course = this.course.year_of_course
     this.$store.commit('Exam/SetCode', this.code)
-    this.$store.commit('Exam/SetSemster', this.semester)
+    this.$store.commit('Exam/SetSemster', parseInt(this.semester))
+    this.$store.commit('Exam/SetYear', this.studyYear)
 
   }
 

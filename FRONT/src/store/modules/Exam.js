@@ -3,7 +3,8 @@ const Exam = {
     state: {
         c_code: 0,
         study_year: {},
-        semster: "",
+        selYear: '',
+        semster: 1,
     },
     getters: {
         c_code(state) {
@@ -14,6 +15,9 @@ const Exam = {
         },
         semster(state) {
             return state.semster
+        },
+        selYear(state) {
+            return state.selYear
         }
     },
     mutations: {
@@ -25,6 +29,9 @@ const Exam = {
         },
         SetSemster(state, s) {
             state.semster = s;
+        },
+        SetYear(state, s) {
+            state.selYear = s;
         }
     },
 
