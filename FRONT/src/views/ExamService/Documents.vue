@@ -2,7 +2,7 @@
   <div class=" w-full text-4xl  font-light  text-white   h-12 bg-primary flex p-2 justify-between items-center"
     style="text-align:center">
     <div>
-      <img src="../../assets/Images/arrow-left-circle.png" class="m-4 h-12  left-2 cursor-pointer " @click="back" alt="">
+      <img src="../../assets/Images/arrow-left-circle.png" class="m-4 h-12  left-2 cursor-pointer " @click="back" alt="الخلف">
     </div>
     <div>
       وثائق &nbsp;&nbsp;</div>
@@ -10,7 +10,7 @@
   <div class="flex justify-between items-center mt-4 mx-6 ">
     <div class="flerx justify-center items-center space-x-4 text-primary text-lg">
       <button class="bg-primary text-body text-lg rounded-lg text-center  px-5 hover:bg-hovercolor"
-        @click="getby">طباعة</button>
+        @click="">طباعة</button>
 
     </div>
     <div class="flerx justify-center items-center space-x-4 text-primary text-lg">
@@ -134,11 +134,11 @@
              {{setSems(1)}}
             <tbody  v-for="s in sec1" :key="s.id" >
                   <tr >
-                    <td colspan="2"> </td>
-                    {{ looog(i,secNum,1)  }}
+                     {{ looog(i,secNum,1)  }}
+                    <td colspan="2">{{ seco2.semester == 'second'? seco2.typing:'' }} </td>
                   <td>{{ seco2.semester == 'second'? seco2.Mark:'' }}</td>
                   <td colspan="3">{{ seco2.semester == 'second'? seco2.course_name:'' }} </td>
-                    <td colspan="2"> </td>
+                    <td colspan="2">{{ s.semester == 'first'? s.typing:'' }} </td>
                   <td>{{ s.semester == 'first'? s.Mark:'' }}</td>
                   <td colspan="3">{{ s.semester == 'first'? s.course_name:'' }}</td> </tr>
 
@@ -180,12 +180,11 @@
              {{initt_i()}}
              {{setSems(2)}}
             <tbody  v-for="s in sec1" :key="s.id" >
-                  <tr >
-                    <td colspan="2"> </td>
-                    {{ looog(i,secNum,2)  }}
+                  <tr >                    {{ looog(i,secNum,2)  }}
+                    <td colspan="2">{{ seco2.semester == 'second'? seco2.typing:'' }} </td>
                   <td>{{ seco2.semester == 'second'? seco2.Mark:'' }}</td>
                   <td colspan="3">{{ seco2.semester == 'second'? seco2.course_name:'' }} </td>
-                    <td colspan="2"> </td>
+                    <td colspan="2">{{ s.semester == 'first'? s.typing:'' }} </td>
                   <td>{{ s.semester == 'first'? s.Mark:'' }}</td>
                   <td colspan="3">{{ s.semester == 'first'? s.course_name:'' }}</td> </tr>
 
@@ -226,12 +225,11 @@
              {{initt_i()}}
              {{setSems(3)}}
             <tbody  v-for="s in sec1" :key="s.id" >
-                  <tr >
-                    <td colspan="2"> </td>
-                    {{ looog(i,secNum,3)  }}
+                  <tr >                    {{ looog(i,secNum,3)  }}
+                    <td colspan="2">{{ seco2.semester == 'second'? seco2.typing:'' }} </td>
                   <td>{{ seco2.semester == 'second'? seco2.Mark:'' }}</td>
                   <td colspan="3">{{ seco2.semester == 'second'? seco2.course_name:'' }} </td>
-                    <td colspan="2"> </td>
+                    <td colspan="2">{{ s.semester == 'first'? s.typing:'' }} </td>
                   <td>{{ s.semester == 'first'? s.Mark:'' }}</td>
                   <td colspan="3">{{ s.semester == 'first'? s.course_name:'' }}</td> </tr>
 
@@ -272,17 +270,16 @@
  {{initt_i()}}
  {{setSems(4)}}
 <tbody  v-for="s in sec1" :key="s.id" >
-      <tr >
-        <td colspan="2"> </td>
-        {{ looog(i,secNum,4)  }}
-      <td>{{ seco2.semester == 'second'? seco2.Mark:'' }}</td>
-      <td colspan="3">{{ seco2.semester == 'second'? seco2.course_name:'' }} </td>
-        <td colspan="2"> </td>
-      <td>{{ s.semester == 'first'? s.Mark:'' }}</td>
-      <td colspan="3">{{ s.semester == 'first'? s.course_name:'' }}</td> </tr>
+                  <tr >                    {{ looog(i,secNum,4)  }}
+                    <td colspan="2">{{ seco2.semester == 'second'? seco2.typing:'' }} </td>
+                  <td>{{ seco2.semester == 'second'? seco2.Mark:'' }}</td>
+                  <td colspan="3">{{ seco2.semester == 'second'? seco2.course_name:'' }} </td>
+                    <td colspan="2">{{ s.semester == 'first'? s.typing:'' }} </td>
+                  <td>{{ s.semester == 'first'? s.Mark:'' }}</td>
+                  <td colspan="3">{{ s.semester == 'first'? s.course_name:'' }}</td> </tr>
 
 
- {{ movv_i()}}
+             {{ movv_i()}}
 </tbody>
             <tfoot>
               <td colspan="3"> </td>
@@ -505,8 +502,8 @@ if (yeer==1) {
         else{
       this.seco2=this.year1.first_semster.at(vvv);}
       }
-      console.log(vvv);
-      console.log(this.seco2);
+  //console.log(vvv);
+//  console.log(this.seco2);
     },
     initt_i() {
       this.i=0;
@@ -567,8 +564,8 @@ if (yeer==1) {
       if (this.docType == 'k') {
         try {
           const res = await axios.post('/getMarksStudent', {
-            specialization: 'fr',
-            university_num: 1007
+            specialization: this.spec,
+            university_num: this.university_num
           }, { headers: { 'Authorization': 'Bearer ' + this.$cookies.get('access_token'), 'Access-Control-Allow-Credentials': true } });
 
           console.log(res)
@@ -599,7 +596,7 @@ if (yeer==1) {
 
     }, async getby() {
       try {
-        const res = await axios.post('/getMarksByYearStudent', { university_num: this.university_num, specialization: this.spec }, { headers: { 'Authorization': 'Bearer ' + this.$cookies.get('access_token'), 'Access-Control-Allow-Credentials': true } });
+        const res = await axios.post('/getMarksStudent', { university_num: this.university_num, specialization: this.spec }, { headers: { 'Authorization': 'Bearer ' + this.$cookies.get('access_token'), 'Access-Control-Allow-Credentials': true } });
         console.log(res);
         this.allC = [];
         const new55 = res.data.cours;
