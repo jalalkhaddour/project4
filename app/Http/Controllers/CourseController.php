@@ -86,7 +86,7 @@ class CourseController extends Controller
 
     public function updateCourse(Request $request)
     {
-
+          
         try {
             $rules = [
                 'course_code' => 'required',
@@ -99,9 +99,9 @@ class CourseController extends Controller
             $course_code = $request->course_code;
             $specialization = $request->specialization;
 
-            $course = Course::query()->where(['course_code ' => $course_code, 'specialization' => $specialization, 'IsActive' => true])->first();
+            $course = Course::query()->where(['course_code' => $course_code, 'specialization' => $specialization, 'IsActive' => true])->first();
 
-            if ($course) {
+            // if ($course) {
                 $newname = $request->name;
                 if ($newname)
                     $course->name = $newname;
@@ -115,10 +115,11 @@ class CourseController extends Controller
                     $course->semester = $newsemester;
 
 
-                $course->update();
+                    // $course->update();
+                    $course->save();
 
                 return CourseResource::returnMsg('تم تعديل المادة بنجاح', 200, true);
-            } else return CourseResource::returnMsg('المادة غير موجودة', 400, false);
+            // } else return CourseResource::returnMsg('المادة غير موجودة', 400, false);
         } catch (ValidationException $exv) {
             return CourseResource::exception($exv);
 
@@ -185,7 +186,7 @@ class CourseController extends Controller
         } else {
             $course_code = $request->course_code;
             $specialization = $request->specialization;
-            $course = Course::where(['course_code ' => $course_code, 'specialization' => $specialization, 'IsActive' => true])->first();
+            $course = Course::where(['course_code' => $course_code, 'specialization' => $specialization, 'IsActive' => true])->first();
         }
 
         $course->IsActive = false;

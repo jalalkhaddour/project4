@@ -45,10 +45,10 @@
               </div>
               
              
-                 <div class="text-lg   rounded-lg  mx-28 text-green-800" v-if="msg.length!=''">
+                 <div class="text-lg   rounded-lg  mx-28 text-green-800" v-if="msg.length">
                   {{msg}}
                 </div>  
-                <div class="text-lg   rounded-lg  mx-28 text-red-500" v-if="msg1.length!=''">
+                <div class="text-lg   rounded-lg  mx-28 text-red-500" v-if="msg1.length">
                   {{msg1}}
                 </div> 
             </form>

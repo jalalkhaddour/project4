@@ -38,7 +38,7 @@
  <button  class="bg-primary text-body text-xl rounded-lg text-center my-1 py-2 px-4 hover:bg-hovercolor" @click="Show(true,'edit',course)"  >
    تعديل
  </button> 
-    <button  class="bg-primary text-body text-xl rounded-lg text-center my-1 py-2 px-4 hover:bg-hovercolor" @click="deleteCourse(course.id)"  >
+    <button  class="bg-primary text-body text-xl rounded-lg text-center my-1 py-2 px-4 hover:bg-hovercolor" @click="deleteCourse(course.course_code)"  >
 حذف
  </button> 
    </td>
@@ -74,34 +74,10 @@ export default {
     async deleteCourse(id){
       const res = await axios.post('/deleteCourse',{course_code:id,specialization:this.spec},{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
       console.log(res)
+      this.load()
     }
-  },
-      
-  setup(){
-    const addLec=ref(false)
-      const year=ref('first')
-      const sem =ref('first')
-      const courses =ref([])
-      const data =ref({})
-      const proc =ref({})
-       
-    return{year,sem,addLec,courses,data,proc}
-    },
-
-computed:{
-  
-   ... mapGetters(["spec","dept"]),
-   ...mapGetters('AdUser',['Role']),
-
-    findCourse(){
-    return this.courses.filter(us =>{
-      return us.semester.match(this.sem)&& us.year_of_course.match(this.year)
-    })
-  }
-
-}, components:{AddLecture},
-async mounted(){
-   try{
+    ,async load(){
+      try{
              const res = await axios.post('/showAllCourses',{specialization:this.spec},{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
             this.courses=res.data.data
             console.log(this.courses)
@@ -135,42 +111,37 @@ async mounted(){
              console.log(e);
            }
            
-},async updated() {
+    }
+  },
+      
+  setup(){
+    const addLec=ref(false)
+      const year=ref('first')
+      const sem =ref('first')
+      const courses =ref([])
+      const data =ref({})
+      const proc =ref({})
+       
+    return{year,sem,addLec,courses,data,proc}
+    },
+
+computed:{
   
-  try{
-             const res = await axios.post('/showAllCourses',{specialization:this.spec},{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
-            this.courses=res.data.data
-            // console.log(this.courses)
-            for(var course of  this.courses){
-              switch(course.semester){
-                case 'first':course.semester1 ='أول'
-                break;
-                case 'second':course.semester1='ثاني' 
-                break;
-                case 'third':course.semester1='ثالث'
-                break;
-             
-              }
-              switch(course.year_of_course){
-                case 'first':course.year_of_course1 ='أولى'
-                break;
-                case 'second':course.year_of_course1='ثانية' 
-                break;
-                case 'third':course.year_of_course1='ثالثة'
-                break;
-                case 'forth':course.year_of_course1='رابعة'
-                break;
-              }
-             
-            }
-            
-            //  console.log(this.courses)
-            //  console.log(res)
-              }
-        catch (e) {
-             console.log(e);
-           }
+   ... mapGetters(["spec","dept"]),
+   ...mapGetters('AdUser',['Role']),
+
+    findCourse(){
+    return this.courses.filter(us =>{
+      return us.semester.match(this.sem)&& us.year_of_course.match(this.year)
+    })
+  }
+
+}, components:{AddLecture},
+async mounted(){
+ this.load()
 }
+  
+ 
            
 
 }
