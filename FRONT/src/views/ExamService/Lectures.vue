@@ -52,7 +52,7 @@
   </div>
   <div v-if="addLec">
   
-  <AddLecture @close="Show" :data="data" :proc="proc" ></AddLecture></div>
+  <AddLecture @close="Show" :data="data" @recive="recive" :proc="proc" ></AddLecture></div>
    
 </template>
 <script>
@@ -60,89 +60,93 @@ import axios from "axios";
 
 import { ref } from '@vue/reactivity'
 import { mapGetters } from 'vuex'
-import AddLecture from '../../components/ExamService/AddLecture.vue' 
+import AddLecture from '../../components/ExamService/AddLecture.vue'
 export default {
+
+  setup() {
+    const addLec = ref(false)
+    const year = ref('first')
+    const sem = ref('first')
+    const courses = ref([])
+    const data = ref({})
+    const proc = ref({})
+
+    return { year, sem, addLec, courses, data, proc }
+  },
   methods: {
-     back(){
-        this.$router.go(-1)
+    back() {
+      this.$router.go(-1)
     },
-    Show(d,proc,data){
-      this.addLec=d
-      this.proc=proc
-      this.data=data
+    Show(d, proc, data) {
+      this.addLec = d
+      this.proc = proc
+      this.data = data
     },
-    async deleteCourse(id){
-      const res = await axios.post('/deleteCourse',{course_code:id,specialization:this.spec},{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
+    async deleteCourse(id) {
+      const res = await axios.post('/deleteCourse', { course_code: id, specialization: this.spec }, { headers: { 'Authorization': 'Bearer ' + this.$cookies.get('access_token'), 'Access-Control-Allow-Credentials': true } });
       console.log(res)
       this.load()
     }
-    ,async load(){
-      try{
-             const res = await axios.post('/showAllCourses',{specialization:this.spec},{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
-            this.courses=res.data.data
-            console.log(this.courses)
-            for(var course of  this.courses){
-              switch(course.semester){
-                case 'first':course.semester1 ='أول'
-                break;
-                case 'second':course.semester1='ثاني' 
-                break;
-                case 'third':course.semester1='ثالث'
-                break;
-             
-              }
-              switch(course.year_of_course){
-                case 'first':course.year_of_course1 ='أولى'
-                break;
-                case 'second':course.year_of_course1='ثانية' 
-                break;
-                case 'third':course.year_of_course1='ثالثة'
-                break;
-                case 'forth':course.year_of_course1='رابعة'
-                break;
-              }
-             
-            }
-            
-             console.log(this.courses)
-             console.log(res)
-              }
-        catch (e) {
-             console.log(e);
-           }
-           
-    }
-  },
-      
-  setup(){
-    const addLec=ref(false)
-      const year=ref('first')
-      const sem =ref('first')
-      const courses =ref([])
-      const data =ref({})
-      const proc =ref({})
-       
-    return{year,sem,addLec,courses,data,proc}
+    , async load() {
+      try {
+        const res = await axios.post('/showAllCourses', { specialization: this.spec }, { headers: { 'Authorization': 'Bearer ' + this.$cookies.get('access_token'), 'Access-Control-Allow-Credentials': true } });
+        this.courses = res.data.data
+        // console.log(this.courses)
+        for (var course of this.courses) {
+          switch (course.semester) {
+            case 'first': course.semester1 = 'أول'
+              break;
+            case 'second': course.semester1 = 'ثاني'
+              break;
+            case 'third': course.semester1 = 'ثالث'
+              break;
+
+          }
+          switch (course.year_of_course) {
+            case 'first': course.year_of_course1 = 'أولى'
+              break;
+            case 'second': course.year_of_course1 = 'ثانية'
+              break;
+            case 'third': course.year_of_course1 = 'ثالثة'
+              break;
+            case 'forth': course.year_of_course1 = 'رابعة'
+              break;
+          }
+
+        }
+
+        //  console.log(this.courses)
+        //  console.log(res)
+      }
+      catch (e) {
+        console.log(e);
+      }
+
+    }, recive(c) {
+      this.courses = c
+      console.log(this.courses)
     },
+  },
 
-computed:{
-  
-   ... mapGetters(["spec","dept"]),
-   ...mapGetters('AdUser',['Role']),
 
-    findCourse(){
-    return this.courses.filter(us =>{
-      return us.semester.match(this.sem)&& us.year_of_course.match(this.year)
-    })
+  computed: {
+
+    ...mapGetters(["spec", "dept"]),
+    ...mapGetters('AdUser', ['Role']),
+
+    findCourse() {
+      return this.courses.filter(us => {
+        return us.semester.match(this.sem) && us.year_of_course.match(this.year)
+      })
+    }
+
+  }, components: { AddLecture },
+  async mounted() {
+    this.load()
   }
 
-}, components:{AddLecture},
-async mounted(){
- this.load()
-}
-  
- 
-           
+
+
 
 }
 </script>

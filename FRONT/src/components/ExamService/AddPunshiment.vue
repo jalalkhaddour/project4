@@ -66,7 +66,8 @@ export default {
      punsh:false,
      semnum:'',
      reason:'',
-     msg:''
+     msg:',',
+     pun:[]
     };
   },
   methods: {
@@ -80,11 +81,22 @@ export default {
            
              console.log(res)
              this.msg="تم إتمام العملية"
+             try{
+             const res = await axios.post('/getStudentPunishments',{ university_num:this.university_num, specialization:this.spec},{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
+            console.log(res)
+            this.pun=res.data
+            this.reset(this.pun)
+              }
+        catch (e) {
+             console.log(e);
+           }
               }
         catch (e) {
              console.log(e);
            }
            
+    },reset(punsh){
+      this.$emit('recive',punsh)
     }
    
   },computed:{

@@ -53,7 +53,7 @@
   <Form  v-if="section=='form'" :Show="Show" :student1="student1" :year="year"/>
   <Subject v-if="section=='subject'" @sr="sr"/>
  
-  <Punishment v-if="section=='punishment'"/>
+  <Punishment v-if="section=='punishment'" :pun="pun" @recivePun="recivePun"/>
   <Interruption v-if="section=='interruption'" :suspsen="suspsen" />
   <EquSubjects  v-if="section=='equsubjects'" :sec="spec" :cert="student1.certifeca"/>
 
@@ -94,6 +94,7 @@ export default {
 
   components:{Form,Subject,Punishment,Interruption,yearRe,Suspenension,transport,EquSubjects,SubjectReg},
   setup(){
+    const pun=ref([])
     const year=ref('')
     const section=ref('') 
     const select=(s,d)=>{section.value=s;Show.value=d}
@@ -132,12 +133,14 @@ export default {
     }) 
     const suspsen=ref([])
     
-    return{failed,select,section,Show,id,name,year,status,search,ShYear,allcourses,ShowYear,sr,sure,stopreg,tran,trans,student1,suspsen}},
+    return{pun,failed,select,section,Show,id,name,year,status,search,ShYear,allcourses,ShowYear,sr,sure,stopreg,tran,trans,student1,suspsen}},
 
 
 methods:{
     back(){
         this.$router.go(-1)
+    },recivePun(p){
+      this.pun=p
     },
    async SearchStudent(){
     
@@ -153,7 +156,15 @@ methods:{
      this.name=this.student1.fullname
      this.$store.commit('Student/SetName',this.name)
 
-     
+     try{
+             const res = await axios.post('/getStudentPunishments',{ university_num:this.university_num, specialization:this.spec},{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
+            console.log(res)
+            this.pun=res.data
+              }
+        catch (e) {
+             console.log(e);
+           }
+       
      
   
        }

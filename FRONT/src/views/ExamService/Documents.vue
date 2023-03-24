@@ -2,7 +2,8 @@
   <div class=" w-full text-4xl  font-light  text-white   h-12 bg-primary flex p-2 justify-between items-center"
     style="text-align:center">
     <div>
-      <img src="../../assets/Images/arrow-left-circle.png" class="m-4 h-12  left-2 cursor-pointer " @click="back" alt="الخلف">
+      <img src="../../assets/Images/arrow-left-circle.png" class="m-4 h-12  left-2 cursor-pointer " @click="back"
+        alt="الخلف">
     </div>
     <div>
       وثائق &nbsp;&nbsp;</div>
@@ -130,23 +131,24 @@
               <th>رقماً</th>
 
             </tr>
-             {{initt_i()}}
-             {{setSems(1)}}
-            <tbody  v-for="s in sec1" :key="s.id" >
-                  <tr >
-                     {{ looog(i,secNum,1)  }}
-                    <td colspan="2">{{ seco2.semester == 'second'? seco2.typing:'' }} </td>
-                  <td>{{ seco2.semester == 'second'? seco2.Mark:'' }}</td>
-                  <td colspan="3">{{ seco2.semester == 'second'? seco2.course_name:'' }} </td>
-                    <td colspan="2">{{ s.semester == 'first'? s.typing:'' }} </td>
-                  <td>{{ s.semester == 'first'? s.Mark:'' }}</td>
-                  <td colspan="3">{{ s.semester == 'first'? s.course_name:'' }}</td> </tr>
+            {{ initt_i() }}
+            {{ setSems(1) }}
+            <tbody v-for="s in sec1" :key="s.id">
+              <tr>
+                {{ looog(i, secNum, 1) }}
+                <td colspan="2">{{ seco2.semester == 'second' ? seco2.typing : '' }} </td>
+                <td>{{ seco2.semester == 'second' ? seco2.Mark : '' }}</td>
+                <td colspan="3">{{ seco2.semester == 'second' ? seco2.course_name : '' }} </td>
+                <td colspan="2">{{ s.semester == 'first' ? s.typing : '' }} </td>
+                <td>{{ s.semester == 'first' ? s.Mark : '' }}</td>
+                <td colspan="3">{{ s.semester == 'first' ? s.course_name : '' }}</td>
+              </tr>
 
 
-             {{ movv_i()}}
+              {{ movv_i() }}
             </tbody>
             <tfoot>
-              <td colspan="3"></td>
+              <td colspan="3">{{ year1.Avg }}</td>
 
               <td colspan="3"> المعدل </td>
               <td colspan="3"></td>
@@ -177,22 +179,23 @@
               <th>رقماً</th>
 
             </tr>
-             {{initt_i()}}
-             {{setSems(2)}}
-            <tbody  v-for="s in sec1" :key="s.id" >
-                  <tr >                    {{ looog(i,secNum,2)  }}
-                    <td colspan="2">{{ seco2.semester == 'second'? seco2.typing:'' }} </td>
-                  <td>{{ seco2.semester == 'second'? seco2.Mark:'' }}</td>
-                  <td colspan="3">{{ seco2.semester == 'second'? seco2.course_name:'' }} </td>
-                    <td colspan="2">{{ s.semester == 'first'? s.typing:'' }} </td>
-                  <td>{{ s.semester == 'first'? s.Mark:'' }}</td>
-                  <td colspan="3">{{ s.semester == 'first'? s.course_name:'' }}</td> </tr>
+            {{ initt_i() }}
+            {{ setSems(2) }}
+            <tbody v-for="s in sec1" :key="s.id">
+              <tr> {{ looog(i, secNum, 2) }}
+                <td colspan="2">{{ seco2.semester == 'second' ? seco2.typing : '' }} </td>
+                <td>{{ seco2.semester == 'second' ? seco2.Mark : '' }}</td>
+                <td colspan="3">{{ seco2.semester == 'second' ? seco2.course_name : '' }} </td>
+                <td colspan="2">{{ s.semester == 'first' ? s.typing : '' }} </td>
+                <td>{{ s.semester == 'first' ? s.Mark : '' }}</td>
+                <td colspan="3">{{ s.semester == 'first' ? s.course_name : '' }}</td>
+              </tr>
 
 
-             {{ movv_i()}}
+              {{ movv_i() }}
             </tbody>
             <tfoot>
-              <td colspan="3"> </td>
+              <td colspan="3">{{ year2.Avg }} </td>
 
               <td colspan="3"> المعدل </td>
               <td colspan="3"></td>
@@ -222,22 +225,23 @@
               <th>رقماً</th>
 
             </tr>
-             {{initt_i()}}
-             {{setSems(3)}}
-            <tbody  v-for="s in sec1" :key="s.id" >
-                  <tr >                    {{ looog(i,secNum,3)  }}
-                    <td colspan="2">{{ seco2.semester == 'second'? seco2.typing:'' }} </td>
-                  <td>{{ seco2.semester == 'second'? seco2.Mark:'' }}</td>
-                  <td colspan="3">{{ seco2.semester == 'second'? seco2.course_name:'' }} </td>
-                    <td colspan="2">{{ s.semester == 'first'? s.typing:'' }} </td>
-                  <td>{{ s.semester == 'first'? s.Mark:'' }}</td>
-                  <td colspan="3">{{ s.semester == 'first'? s.course_name:'' }}</td> </tr>
+            {{ initt_i() }}
+            {{ setSems(3) }}
+            <tbody v-for="s in sec1" :key="s.id">
+              <tr> {{ looog(i, secNum, 3) }}
+                <td colspan="2">{{ seco2.semester == 'second' ? seco2.typing : '' }} </td>
+                <td>{{ seco2.semester == 'second' ? seco2.Mark : '' }}</td>
+                <td colspan="3">{{ seco2.semester == 'second' ? seco2.course_name : '' }} </td>
+                <td colspan="2">{{ s.semester == 'first' ? s.typing : '' }} </td>
+                <td>{{ s.semester == 'first' ? s.Mark : '' }}</td>
+                <td colspan="3">{{ s.semester == 'first' ? s.course_name : '' }}</td>
+              </tr>
 
 
-             {{ movv_i()}}
+              {{ movv_i() }}
             </tbody>
             <tfoot>
-              <td colspan="3"> </td>
+              <td colspan="3">{{ year3.Avg }} </td>
 
               <td colspan="3"> المعدل </td>
               <td colspan="3"></td>
@@ -266,23 +270,24 @@
               <th colspan="2">كتابة</th>
               <th>رقماً</th>
 
-</tr>
- {{initt_i()}}
- {{setSems(4)}}
-<tbody  v-for="s in sec1" :key="s.id" >
-                  <tr >                    {{ looog(i,secNum,4)  }}
-                    <td colspan="2">{{ seco2.semester == 'second'? seco2.typing:'' }} </td>
-                  <td>{{ seco2.semester == 'second'? seco2.Mark:'' }}</td>
-                  <td colspan="3">{{ seco2.semester == 'second'? seco2.course_name:'' }} </td>
-                    <td colspan="2">{{ s.semester == 'first'? s.typing:'' }} </td>
-                  <td>{{ s.semester == 'first'? s.Mark:'' }}</td>
-                  <td colspan="3">{{ s.semester == 'first'? s.course_name:'' }}</td> </tr>
+            </tr>
+            {{ initt_i() }}
+            {{ setSems(4) }}
+            <tbody v-for="s in sec1" :key="s.id">
+              <tr> {{ looog(i, secNum, 4) }}
+                <td colspan="2">{{ seco2.semester == 'second' ? seco2.typing : '' }} </td>
+                <td>{{ seco2.semester == 'second' ? seco2.Mark : '' }}</td>
+                <td colspan="3">{{ seco2.semester == 'second' ? seco2.course_name : '' }} </td>
+                <td colspan="2">{{ s.semester == 'first' ? s.typing : '' }} </td>
+                <td>{{ s.semester == 'first' ? s.Mark : '' }}</td>
+                <td colspan="3">{{ s.semester == 'first' ? s.course_name : '' }}</td>
+              </tr>
 
 
-             {{ movv_i()}}
-</tbody>
+              {{ movv_i() }}
+            </tbody>
             <tfoot>
-              <td colspan="3"> </td>
+              <td colspan="3">{{ year4.Avg }} </td>
 
               <td colspan="3"> المعدل </td>
               <td colspan="3"></td>
@@ -422,13 +427,13 @@ export default {
 
   setup() {
     const year1 = ref({})
-    const i=0
-     const secNum=0
+    const i = 0
+    const secNum = 0
     const year2 = ref({})
     const year3 = ref({})
     const year4 = ref({})
-    const seco2 =ref({})
-    const sec1 =ref({})
+    const seco2 = ref({})
+    const sec1 = ref({})
     const data = ref([])
     const section = ref('')
     const docType = ref('')
@@ -467,7 +472,7 @@ export default {
     })
     const suspsen = ref([])
 
-    return {sec1,secNum, i,seco2,failed, data, select, section, docType, Show, id, name, status, search, ShYear, allcourses, sr, sure, stopreg, tran, trans, student1, suspsen, year1, year2, year3, year4 }
+    return { sec1, secNum, i, seco2, failed, data, select, section, docType, Show, id, name, status, search, ShYear, allcourses, sr, sure, stopreg, tran, trans, student1, suspsen, year1, year2, year3, year4 }
   },
 
 
@@ -475,74 +480,75 @@ export default {
     back() {
       this.$router.go(-1)
     },
-    looog(vvv,sem,yeer) {
-var yeer88=ref({});
-if (yeer==1) {
-       yeer88=this.year1;
-}if (yeer==2) {
-   yeer88=this.year2;
-}if (yeer==3) {
-     yeer88=this.year3;
-}if (yeer==4) {
-   yeer88=this.year4;
-}
-      if(sem==2){
-        var lon=yeer88.second_semster.length-1;
-        if(lon<vvv){
-          this.seco2="";
-        }
-        else{
-      this.seco2=yeer88.second_semster.at(vvv);}
-    }
-      else{
-        var lon=this.year1.first_semster.length-1;
-        if(lon<vvv){
-          this.seco2="";
-        }
-        else{
-      this.seco2=this.year1.first_semster.at(vvv);}
+    looog(vvv, sem, yeer) {
+      var yeer88 = ref({});
+      if (yeer == 1) {
+        yeer88 = this.year1;
+      } if (yeer == 2) {
+        yeer88 = this.year2;
+      } if (yeer == 3) {
+        yeer88 = this.year3;
+      } if (yeer == 4) {
+        yeer88 = this.year4;
       }
-  //console.log(vvv);
-//  console.log(this.seco2);
+      if (sem == 2) {
+        var lon = yeer88.second_semster.length - 1;
+        if (lon < vvv) {
+          this.seco2 = "";
+        }
+        else {
+          this.seco2 = yeer88.second_semster.at(vvv);
+        }
+      }
+      else {
+        var lon = this.year1.first_semster.length - 1;
+        if (lon < vvv) {
+          this.seco2 = "";
+        }
+        else {
+          this.seco2 = this.year1.first_semster.at(vvv);
+        }
+      }
+      //console.log(vvv);
+      //  console.log(this.seco2);
     },
     initt_i() {
-      this.i=0;
+      this.i = 0;
     },
     setSems(yeer) {
       var yeer88;
-      var lon1=1;
-      var lon2=1;
-if (yeer==1) {
-       yeer88=this.year1;
-  lon1=this.year1.first_semster.length;
-  lon2=this.year1.second_semster.length;
-}if (yeer==2) {
-   yeer88=this.year2;
-  lon1=this.year2.first_semster.length;
-  lon2=this.year2.second_semster.length;
-}if (yeer==3) {
-     yeer88=this.year3;
-    lon1=this.year3.first_semster.length;
-  lon2=this.year3.second_semster.length;
-}if (yeer==4) {
-   yeer88=this.year4;
-  lon1=this.year4.first_semster.length;
-  lon2=this.year4.second_semster.length;
-}else{
+      var lon1 = 1;
+      var lon2 = 1;
+      if (yeer == 1) {
+        yeer88 = this.year1;
+        lon1 = this.year1.first_semster.length;
+        lon2 = this.year1.second_semster.length;
+      } if (yeer == 2) {
+        yeer88 = this.year2;
+        lon1 = this.year2.first_semster.length;
+        lon2 = this.year2.second_semster.length;
+      } if (yeer == 3) {
+        yeer88 = this.year3;
+        lon1 = this.year3.first_semster.length;
+        lon2 = this.year3.second_semster.length;
+      } if (yeer == 4) {
+        yeer88 = this.year4;
+        lon1 = this.year4.first_semster.length;
+        lon2 = this.year4.second_semster.length;
+      } else {
 
-}
-      if (lon1 >= lon2)
-        {
-        this.secNum=2;
-        this.sec1=yeer88.first_semster;
       }
-             else
-       {this.secNum=1
-      this.sec1=yeer88.second_semster;
-    }
+      if (lon1 >= lon2) {
+        this.secNum = 2;
+        this.sec1 = yeer88.first_semster;
+      }
+      else {
+        this.secNum = 1
+        this.sec1 = yeer88.second_semster;
+      }
     },
     movv_i() {
-      this.i=this.i+1;
+      this.i = this.i + 1;
     },
     async SearchStudent() {
       this.show = true
@@ -688,5 +694,4 @@ if (yeer==1) {
   margin: 0PX;
   padding: 0PX;
 
-}
-</style>
+}</style>

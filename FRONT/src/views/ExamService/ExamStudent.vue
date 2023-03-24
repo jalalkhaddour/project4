@@ -50,7 +50,7 @@
 <div class="">
   <Subject v-if="section=='subject'" @sr="sr" :failed="allcourses" />
    <StudentHalls v-if="section=='halls'" :student1="student1"></StudentHalls>
- <Punishment v-if="section=='punshiment'" @open="open" ></Punishment>
+ <Punishment v-if="section=='punshiment'" @open="open" :pun="pun" @recivePun="recivePun"></Punishment>
 </div>
 
   
@@ -61,7 +61,7 @@
    
      
       <div  v-if="addp" >
-     <AddPunshiment @close="addp=false"></AddPunshiment></div>
+     <AddPunshiment @close="addp=false" @recive="recive"></AddPunshiment></div>
 
 
 
@@ -91,6 +91,7 @@ export default {
 
   components:{Subject,StudentHalls,Punishment,AddPunshiment},
   setup(){
+    const pun=ref([])
      const section=ref('') 
      const select=(s,d)=>{section.value=s;}
      const name =ref('')
@@ -122,12 +123,17 @@ export default {
      
    const allcourses=ref([{course_code : '',id: '',name: "",semester: "",specialization: "",year_of_course: ""}]);
     const status =ref({})
-    return{select,section,id,name,search,sr,sure,student1,allcourses,status,failed}},
+    return{pun,select,section,id,name,search,sr,sure,student1,allcourses,status,failed}},
 
 
 methods:{
     back(){
         this.$router.go(-1)
+    },
+    recive(punsh){
+      this.pun=punsh
+    },recivePun(p){
+      this.pun=p
     },
    async SearchStudent(){
     
@@ -144,6 +150,14 @@ methods:{
      this.$store.commit('Student/SetName',this.name)
     //  this.status=res2.data
      // console.log(this.status)
+     try{
+             const res = await axios.post('/getStudentPunishments',{ university_num:this.university_num, specialization:this.spec},{headers: {'Authorization':'Bearer '+this.$cookies.get('access_token'),'Access-Control-Allow-Credentials':true}});  
+            console.log(res)
+            this.pun=res.data
+              }
+        catch (e) {
+             console.log(e);
+           }
        }
  catch (e) {
       console.log(e);
