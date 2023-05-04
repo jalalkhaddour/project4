@@ -90,6 +90,7 @@ Route::post('/PutStudentsInClassByCourse', [CheckExamController::class, 'PutStud
 Route::post('/AddMarksCheckEx', [CheckExamController::class, 'AddMarksCheckEx']);
 Route::post('/getExamByCourse', [ExamController::class, 'getExamByCourse']);
 Route::any('/getMarksStudent', [ExamController::class, 'getMarksStudent']);
+Route::any('/NumberArabic', [ExamController::class, 'NumberArabic']);
 Route::get('/getStudyYearsList', [ExamController::class, 'getStudyYearsList']);
 Route::post('/getMarksByYearStudent', [ExamController::class, 'getMarksByYearStudent']);
 Route::post('/StudentCourses', [ExamController::class, 'StudentCourses']);

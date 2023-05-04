@@ -117,7 +117,7 @@ class BaseResource extends JsonResource
      * @throws Exception
      */
     public static function paginable($resource)
-    {
+        {
         if ($resource instanceof LengthAwarePaginator) {
             throw new \Exception("Don't call ->paginable() on your payload if you want to use this function");
         }

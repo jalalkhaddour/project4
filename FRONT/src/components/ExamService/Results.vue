@@ -31,28 +31,49 @@
           </tbody>
       </table>
   </div>
+   <div style="width:100%;display: flex;flex-direction: row;align-items: center;justify-content: center ">
+       <button class="bg-primary text-body text-xl rounded-lg text-center m-5 py-1 px-2  h-10 hover:bg-hovercolor"
+   @click="pageIncrease()">التالي
+       </button>
+       <button class="bg-primary text-body text-xl rounded-lg text-center m-5 py-1 px-2  h-10 hover:bg-hovercolor"
+   @click="pageDecrease()">السابق
+       </button>
+       </div>
 </template>
 <script>
 
 
 import axios from "axios";
 import { mapGetters } from "vuex";
+
+var page = 1;
 export default {
   data() {
     return {
       results: [],
       data: {},
-      
     }
   },
   methods: {
+      pageIncrease() {
+          page = page + 1
+          console.log(page)
+          this.refresh()
+
+      },
+      pageDecrease() {
+          if(page!=1){
+          page = page - 1
+          this.refresh()}
+      },
   async refresh(){
     try {
       const res = await axios.post('/ExamByCourse', {
         code: this.c_code,
         specialization: this.spec,
         study_year: '2013/2012',
-        Examsemster: this.semster
+        Examsemster: this.semster,
+          page: page
       }, { headers: { 'Authorization': 'Bearer ' + this.$cookies.get('access_token'), 'Access-Control-Allow-Credentials': true } });
 
       console.log(res)

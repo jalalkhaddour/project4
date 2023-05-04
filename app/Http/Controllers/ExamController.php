@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BaseResource;
 use App\Models\Course;
 use App\Models\student_courses_state;
 use App\Models\Student;
@@ -46,11 +47,13 @@ class ExamController extends Controller
             } else {
                 $succAvg = 100 * ($succCount / $count);
             }
-            return response()->json(['study' => $study_year, 'Examsemster' => $Examsemster, 'spec' => $specialization, 'code' => $code, 'results' => $results, 'avg' => $succAvg, 'RegisterdStd' => $count, 'SuccStd' => $succCount], 200);
+            $lololo=BaseResource::paginable($results);
+            $behe=$lololo->original;
+            $behere=$behe['data'];
+            $newdt=['study'=>$study_year,'Examsemster'=>$Examsemster,'spec'=>$specialization,'code'=>$code,'results'=>$behere,'avg'=>$succAvg,'RegisterdStd' =>$count,'SuccStd'=>$succCount];
+            return response()->json($newdt,200);
 
         }
-
-
         public function getStudyYearsList()
         {
             $now = new \DateTime('now');
@@ -418,6 +421,9 @@ class ExamController extends Controller
             ];
 
         }
+        function NumberArabic(Request $request){
+            return $this->Number2Text($request->Number);
+        }
     function Number2Text($numberValue){
 
         $textResult = '';
@@ -546,9 +552,17 @@ class ExamController extends Controller
             }
 
         }
-        if($textResult=="مائة" || $textResult=="صفر"){
-        return $textResult;} else{
-            return "فقط ".$textResult;
+        if($textResult=="مائة")
+        {
+        return $textResult.' درجة';
+        }
+        elseif ($textResult=="صفر")
+        {
+            return $textResult.' فقط';
+        }
+        else
+        {
+            return $textResult."  درجة فقط ";
         }
     }
 
